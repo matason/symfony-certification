@@ -206,11 +206,14 @@ $crawler = $browser->request('GET', 'https://symfony.com');
 #### The Config Component
 #### The Console Component
 #### The Contracts Component
-#### The CssSelector Component
+#### [The CssSelector Component](https://symfony.com/doc/5.0/components/css_selector.html)
+> The CSS Selector component converts CSS selectors to XPath expressions using the `vendor/symfony/css-selector/CssSelectorConverter.php::toXPath()` method.
 #### The DependencyInjection Component
-#### The DomCrawler Component
+#### [The DomCrawler Component](https://symfony.com/doc/5.0/components/dom_crawler.html)
+> The DomCrawler component eases DOM navigation for HTML and XML documents.
 #### The EventDispatcher Component
-#### The ExpressionLanguage Component
+#### [The ExpressionLanguage Component](https://symfony.com/doc/5.0/components/expression_language.html)
+> The ExpressionLanguage component provides an engine that can compile and evaluate expressions. An expression is a one-liner that returns a value (mostly, but not limited to, Booleans).
 #### The Filesystem Component
 #### The Finder Component
 #### The Form Component
