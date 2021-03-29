@@ -83,6 +83,7 @@ Flex recipes can be inspected at https://flex.symfony.com/
 
 To use Symfony Flex, which is a recommended best practice, the following directory structure (which is default for Symfony > 4) must be used:
 
+```
 your-project/
 +-- assets/
 +-- **bin**/
@@ -102,6 +103,7 @@ your-project/
 +-- translations/
 +-- **var**/
 +-- **vendor**/
+```
 
 NOTE: The location of five directories (bin, config, public, src, var and vendor) can be customised by specifying a key/value pair in the *extra* section of composer.json, for example:
 
