@@ -364,6 +364,44 @@ class SomeController extends AbstractController
 ### Violations builder
 
 ## Dependency Injection
+
+You can constructor-inject parameters as follows:
+```
+# config/services.yaml
+parameters:
+    app.greeting: 'Hello, world!'
+
+services:
+...
+    App\Controller\:
+        resource: '../src/Controller/'
+        tags: ['controller.service_arguments']
+...
+    App\Controller\DefaultController:
+        arguments:
+            $greeting: '%app.greeting%'
+```
+and then:
+```
+<?php
+
+namespace App\Controller;
+
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
+class DefaultController extends AbstractController
+{
+    protected $greeting;
+
+    /**
+     * DefaultController constructor.
+     */
+    public function __construct($greeting)
+    {
+        $this->greeting = $greeting;
+    }
+}
+```
 ### Service container
 ### Built-in services
 ### Configuration parameters
