@@ -1,6 +1,29 @@
 # Symfony Certification
 [Certification FAQ](https://certification.symfony.com/faq.html)
 
+## [Technical Requirements](https://symfony.com/doc/5.0/setup.html#technical-requirements)
+* PHP 7.2.5 or higher with extensions: Ctype, iconv, JSON, PCRE, Session, SimpleXML, and Tokenizer (which are installed by default)
+* Composer
+
+## [Installation](https://symfony.com/doc/5.0/setup.html)
+There are two ways of installing Symfony:
+* using the [Symfony CLI binary](https://github.com/symfony/cli) (which is not open source, it contains commands to manage Symfony Cloud projects)
+* using the Composer `create project` command
+
+### Using the Symfony CLI binary
+```
+$ symfony new my_project_name --version=5.0 --full
+```
+
+The above command is a wrapper around the composer create-project command.
+
+### Using composer create-project
+```
+$composer create-project symfony/website-skeleton:"5.0.*" my_project_name
+```
+
+Either of the above methods of installation will result in a 5.0.x Symfony project being installed.
+
 ## PHP
 ### PHP API up to PHP 7.2 version
 ### Object Oriented Programming
