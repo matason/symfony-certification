@@ -169,6 +169,12 @@ There are three versioning strategies (custom versioning strategies can also be 
 
 Custom versioning strategy classes must implement the VersionStrategyInterface - `vendor/symfony/asset/VersionStrategy/VersionStrategyInterface.php`
 
+**Benefits of using the asset component**
+* Keeps verbose includes out of templates
+* Facilitates cache control of assets
+* Facilitates an easy move of assets (should you wish to do so)
+* Facilitates use of CDN's: without asset, it's hard to randomise the CDN targets
+
 #### [BrowserKit component](https://symfony.com/doc/5.0/components/browser_kit.html)
 > The BrowserKit component simulates the behavior of a web browser, allowing you to make requests, click on links and submit forms programmatically.
 
@@ -197,11 +203,6 @@ $browser = new HttpBrowser(HttpClient::create());
 $crawler = $browser->request('GET', 'https://symfony.com');
 ```
 
-**Benefits of using the asset component**
-* Keeps verbose includes out of templates
-* Facilitates cache control of assets
-* Facilitates an easy move of assets (should you wish to do so)
-* Facilitates use of CDN's: without asset, it's hard to randomise the CDN targets
 
 ### Bridges
 ### Code organization
