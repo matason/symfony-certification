@@ -202,7 +202,42 @@ require './vendor/autoload.php';
 $browser = new HttpBrowser(HttpClient::create());
 $crawler = $browser->request('GET', 'https://symfony.com');
 ```
-
+#### The Cache Component
+#### The Config Component
+#### The Console Component
+#### The Contracts Component
+#### The CssSelector Component
+#### The DependencyInjection Component
+#### The DomCrawler Component
+#### The EventDispatcher Component
+#### The ExpressionLanguage Component
+#### The Filesystem Component
+#### The Finder Component
+#### The Form Component
+#### The HttpFoundation Component
+#### The HttpKernel Component
+#### The Inflector Component
+#### The Intl Component
+#### The Ldap Component
+#### The Lock Component
+#### The Mailer Component
+#### The Messenger Component
+#### The Mime Component
+#### The OptionsResolver Component
+#### The PHPUnit Bridge
+#### The Process Component
+#### The PropertyAccess Component
+#### The PropertyInfo Component
+#### The PSR-7 Bridge
+#### The Security Component
+#### The Serializer Component
+#### The Stopwatch Component
+#### The String Component
+#### The Validator Component
+#### The VarDumper Component
+#### The VarExporter Component
+#### The Workflow Component
+#### The Yaml Component
 
 ### Bridges
 ### Code organization
