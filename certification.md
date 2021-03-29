@@ -81,7 +81,17 @@ Flex recipes can be inspected at https://flex.symfony.com/
 
 [Upgrading existing project to use Symfony Flex](https://symfony.com/doc/5.0/setup/flex.html)
 
-To use Symfony Flex, which is a recommended best practice, the following directory structure (which is default for Symfony > 4) must be used:
+The process is quite involved and includes the following key activities:
+* installing Symfony Flex
+* removing the Symfony Standard Edition (if it has been used)
+* adding back dependencies
+* moving configuration files
+* moving source code files
+* moving source and public assets
+* removing old directories
+* rename SYMFONY_DEBUG and SYMFONY_ENV environment variables to APP_DEBUG and APP_ENV
+
+To use Symfony Flex, which is a recommended best practice, the following directory structure (which is default for Symfony > 4) is recommended:
 
 ```
 your-project/
