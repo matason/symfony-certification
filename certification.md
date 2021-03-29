@@ -86,23 +86,23 @@ To use Symfony Flex, which is a recommended best practice, the following directo
 ```
 your-project/
 +-- assets/
-+-- **bin**/
++-- bin/
 |   +-- console
-+-- **config**/
++-- config/
 |   +-- bundles.php
 |   +-- packages/
 |   +-- routes.yaml
 |   +-- services.yaml
-+-- **public**/
++-- public/
 |   +-- index.php
-+-- **src**/
++-- src/
 |   +-- ...
 |   +-- Kernel.php
 +-- templates/
 +-- tests/
 +-- translations/
-+-- **var**/
-+-- **vendor**/
++-- var/
++-- vendor/
 ```
 
 NOTE: The location of five directories (bin, config, public, src, var and vendor) can be customised by specifying a key/value pair in the *extra* section of composer.json, for example:
