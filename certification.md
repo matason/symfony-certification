@@ -133,6 +133,20 @@ The five directories key values are:
 * src-dir
 
 ### License
+Symfony source code is MIT license:
+
+> A short and simple permissive license with conditions only requiring preservation of copyright and license notices. Licensed works, modifications, and larger works may be distributed under different terms and without source code.
+
+Permitted:
+* Commercial use
+* Modification
+* Distribution
+* Private use
+
+Limitations:
+* Liability
+* Warranty
+
 ### Components
 ### Bridges
 ### Code organization
