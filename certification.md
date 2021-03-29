@@ -148,6 +148,33 @@ Limitations:
 * Warranty
 
 ### Components
+
+If using Symfony components in non-Symfony projects: vendor/autoload.php must be included.
+
+#### [Asset component](https://symfony.com/doc/5.0/components/asset.html)
+
+> The Asset component manages URL generation and versioning of web assets such as CSS stylesheets, JavaScript files and image files.
+
+Assets are managed through *packages*.
+
+Packages implement the PackageInterface: `vendor/symfony/asset/PackageInterface.php`
+
+A package facilitates versioning, allows a common base path to be set and enables a CDN to be configured (if desired).
+
+**Versioning strategies**
+There are three versioning strategies (custom versioning strategies can also be implemented):
+* Empty version strategy: `vendor/symfony/asset/VersionStrategy/EmptyVersionStrategy.php`
+* Static version strategy: `vendor/symfony/asset/VersionStrategy/StaticVersionStrategy.php`
+* JSON manifest file strategy: `vendor/symfony/asset/VersionStrategy/JsonManifestVersionStrategy.php`
+
+Custom versioning strategy classes must implement the VersionStrategyInterface - `vendor/symfony/asset/VersionStrategy/VersionStrategyInterface.php`
+
+**Benefits of using the asset component**
+* Keeps verbose includes out of templates
+* Facilitates cache control of assets
+* Facilitates an easy move of assets (should you wish to do so)
+* Facilitates use of CDN’s: without asset, it’s hard to randomise the CDN targets
+
 ### Bridges
 ### Code organization
 ### Request handling
