@@ -278,6 +278,31 @@ $ composer remove symfony/symfony
 ## Controllers
 ### Naming conventions
 ### The base AbstractController class
+**Provides access to parameters**
+The AbstractController has a method called getParameter() which takes the string parameter name of the parameter to get.
+
+```
+# config/services.yaml
+parameters:
+    app.greeting: 'Hello, world!'
+```
+
+```
+<?php
+
+namespace App\Controller;
+
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
+class SomeController extends AbstractController
+{
+    public function index()
+    {
+        dd($this->getParameter('app.greeting'));
+    }
+}
+```
+
 ### The request
 ### The response
 ### The cookies
