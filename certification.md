@@ -247,10 +247,29 @@ $crawler = $browser->request('GET', 'https://symfony.com');
 ### Request handling
 ### Exception handling
 ### Event dispatcher and kernel events
-### Official best practices
+### [Official best practices](https://symfony.com/doc/5.0/best_practices.html)
+Introduced by Fabien during his Symfony Live 2014 keynote in New York (whilst there were other Symfony Live conference talks online, I couldn't find any from New York).
+* Use Symfony CLI binary to create new projects
+* Use the default Symfony directory structure
+* Use Symfony Flex in projects
+* Keep services private
+* Do not inject the container because it hides the actual dependencies and gives too much access... doing so also requires that services be made public
+* Put as little logic as possible in controllers (thin controllers)
+* Use the same controller action to render and to process forms
+* Redirect after a successful form submission to prevent the user from hitting the refresh button
+
 ### Release management
 ### Backward compatibility promise
 ### Deprecations best practices
+
+**Symfony Standard Edition**
+Symfony standard edition is no longer available since Symfony 4
+A project using the Symfony standard edition will have symfony/symfony dependency in composer.json
+Remove it with:
+```
+$ composer remove symfony/symfony
+```
+
 ### Framework overloading
 ### Release management and roadmap schedule
 ### Framework interoperability and PSRs
