@@ -618,6 +618,7 @@ class MyController
         $formBuilder = $formFactory->createBuilder();
     }
 }
+```
 
 ## Security
 Run php bin/console symfony check:security regularly.
