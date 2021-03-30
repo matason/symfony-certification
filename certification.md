@@ -1,4 +1,4 @@
-# Symfony Certification
+# Symfony Certification Study Notes
 [Certification FAQ](https://certification.symfony.com/faq.html)
 
 ## [Technical Requirements](https://symfony.com/doc/5.0/setup.html#technical-requirements)
@@ -51,9 +51,15 @@ There are nine HTTP methods defined by the HTTP specification:
 * OPTIONS
 * TRACE
 
+The body of the response can be returned in different formats (HTML, JSON, XML) so the `Content-Type` header is used to convey which format (Internet Media Type) is being returned.
+
 **Other resources**
+* [HTTP1.1 Specification](https://www.w3.org/Protocols/rfc2616/rfc2616.html)
+* [IETF HTTP Working Group documents](https://datatracker.ietf.org/wg/httpbis/documents/)
 * [XMLHttpRequest](https://en.wikipedia.org/wiki/XMLHttpRequest)
 * [List of HTTP header fields](https://en.wikipedia.org/wiki/List_of_HTTP_header_fields)
+* [List of HTTP status codes](https://en.wikipedia.org/wiki/List_of_HTTP_status_codes)
+* [Internet media types](https://www.iana.org/assignments/media-types/media-types.xhtml)
 
 ### Client / Server interaction
 ### Status codes
@@ -236,6 +242,24 @@ $crawler = $browser->request('GET', 'https://symfony.com');
 #### The Finder Component
 #### The Form Component
 #### The HttpFoundation Component
+**[The HttpFoundation Request class](https://symfony.com/doc/5.0/introduction/http_fundamentals.html#symfony-request-object)**
+>  The Symfony\Component\HttpFoundation\Request class is an object-oriented representation of the HTTP request message. With it, you have all the request information at your fingertips.
+
+Incoming PHP variables are made available on the Request object as public properties:
+
+```
+$request->request // Instance of `Symfony\Component\HttpFoundation\ParameterBag`, wraps `$_GET`
+$request->query // Instance of `Symfony\Component\HttpFoundation\ParameterBag`, wraps `$_POST`
+$request->cookies // Instance of `Symfony\Component\HttpFoundation\ParameterBag`, wraps `$_COOKIE`
+$request->files // Instance of `Symfony\Component\HttpFoundation\FileBag`, FileBag extends ParameterBag, wraps `$_FILES`
+$request->server // Instance of `Symfony\Component\HttpFoundation\ServerBag`, ServerBag extends ParameterBag, wraps `$_SERVER`
+$request->headers // A class implementing the [IteratorAggregate](https://www.php.net/manual/en/class.iteratoraggregate.php) and [Countable](https://www.php.net/manual/en/class.countable.php) interfaces
+```
+
+You can reach inside each *bag* with the `get()` method.
+
+$request->query->get('name', 'a default value if name is not set');
+
 #### The HttpKernel Component
 #### The Inflector Component
 #### The Intl Component
