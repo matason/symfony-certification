@@ -829,3 +829,19 @@ will regenerate the asymmetric cryptographic keys, decrypt all the secrets with 
 ### Lock component
 ### Web Profiler, Web Debug Toolbar and Data collectors
 ### Internationalization and localization (and Intl component)
+
+## Worth knowing about
+
+### [Maker bundle](https://symfony.com/doc/current/bundles/SymfonyMakerBundle/index.html)
+
+### [Webpack Encore](https://symfony.com/doc/5.0/frontend/encore/installation.html)
+Install node.js and yarn package manager first.
+
+If you're using Webpack Encore in a project that has Symfony Flex installed, then all you need to run is:
+
+```
+$ composer require symfony/webpack-encore-bundle
+$ yarn install
+```
+
+Installing the symfony/webpack-encore-bundle will also create config/packages/assets.yaml and configure Symfony to use the JSON manifest versioning strategy by default.
