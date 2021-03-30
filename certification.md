@@ -248,11 +248,11 @@ $crawler = $browser->request('GET', 'https://symfony.com');
 Incoming PHP variables are made available on the Request object as public properties:
 
 ```
-$request->request // Instance of `Symfony\Component\HttpFoundation\ParameterBag`, wraps `$_GET`
-$request->query // Instance of `Symfony\Component\HttpFoundation\ParameterBag`, wraps `$_POST`
-$request->cookies // Instance of `Symfony\Component\HttpFoundation\ParameterBag`, wraps `$_COOKIE`
-$request->files // Instance of `Symfony\Component\HttpFoundation\FileBag`, FileBag extends ParameterBag, wraps `$_FILES`
-$request->server // Instance of `Symfony\Component\HttpFoundation\ServerBag`, ServerBag extends ParameterBag, wraps `$_SERVER`
+$request->request // Instance of Symfony\Component\HttpFoundation\ParameterBag, wraps $_GET
+$request->query // Instance of Symfony\Component\HttpFoundation\ParameterBag, wraps $_POST
+$request->cookies // Instance of Symfony\Component\HttpFoundation\ParameterBag, wraps $_COOKIE
+$request->files // Instance of Symfony\Component\HttpFoundation\FileBag, FileBag extends ParameterBag, wraps $_FILES
+$request->server // Instance of Symfony\Component\HttpFoundation\ServerBag, ServerBag extends ParameterBag, wraps $_SERVER
 $request->headers // A class implementing the [IteratorAggregate](https://www.php.net/manual/en/class.iteratoraggregate.php) and [Countable](https://www.php.net/manual/en/class.countable.php) interfaces
 ```
 
