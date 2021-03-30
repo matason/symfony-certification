@@ -819,6 +819,9 @@ will regenerate the asymmetric cryptographic keys, decrypt all the secrets with 
 ### Error handling
 ### Code debugging
 ### Deployment best practices
+* have the deployment run composer dump-env to dump out variable final values to .env.local.php
+* have the deployment process copy your config/secrets/prod/prod.decrypt.private.php to your deployment target
+
 ### Process and Serializer components
 ### Messenger component
 ### Mime and Mailer components
