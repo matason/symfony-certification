@@ -3,7 +3,7 @@ Study notes made whilst preparing for [Symfony 5.0 certification](https://certif
 
 ## Other very good resources
 * [Symfony certification guide](https://github.com/jmolivas/symfony-certification-guide)
-* [Symfony Certification Preparation List](https://github.com/ThomasBerends/symfony-certification-preparation-list) by [Thomas Berends](https://github.com/ThomasBerends)
+* [Symfony Certification Preparation List](https://github.com/ThomasBerends/symfony-certification-preparation-list)
 * [Symfony 3 certification guide](https://github.com/raulconti/symfony-3-certification-guide)
 
 ## Motivation
