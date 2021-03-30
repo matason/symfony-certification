@@ -258,7 +258,9 @@ $request->headers // A class implementing the [IteratorAggregate](https://www.ph
 
 You can reach inside each *bag* with the `get()` method.
 
+```
 $request->query->get('name', 'a default value if name is not set');
+```
 
 #### The HttpKernel Component
 #### The Inflector Component
