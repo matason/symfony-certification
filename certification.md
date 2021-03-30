@@ -654,7 +654,30 @@ Run php bin/console symfony check:security regularly.
 ### Console events
 ### Verbosity levels
 
-## Automated Tests
+## [Automated Tests](https://symfony.com/doc/5.0/testing.html)
+Run ./bin/phpunit in the Symfony project root directory which will install PHPUnit on first run and then it will run your tests.
+
+Tests should be in the tests directory... I created Functional/Controller/DefaultControllerTest.php inside the tests directory with the following code:
+
+```
+<?php
+
+namespace App\Tests\Functional\Controller;
+
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+
+class DefaultControllerTest extends WebTestCase
+{
+    public function test_index_page_displays_hello_world()
+    {
+        $client = static::createClient();
+        $client->request('GET', '/');
+
+        $this->assertSelectorTextSame('p', 'Hello, world!');
+    }
+}
+```
+
 ### Unit tests with PHPUnit
 ### Functional tests with PHPUnit
 ### Client object
