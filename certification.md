@@ -620,9 +620,12 @@ class MyController
 }
 
 ## Security
+Run php bin/console symfony check:security regularly.
 ### Authentication
 ### Authorization
 ### Configuration
+* don't commit any local .env files to source control
+* use secrets management system for sensitive environment variable values
 ### Providers
 ### Firewalls
 ### Users
