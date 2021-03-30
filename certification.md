@@ -550,7 +550,7 @@ class MyController
 ### Factories
 ### Compiler passes
 ### [Services autowiring](https://symfony.com/doc/5.0/service_container/autowiring.html)
-If you type-hint your controller constructor arguments, Symfony will pass in the services automagically: you don’t even have to have your controller extend `AbstractController` if you don't want to.
+If you type-hint your controller constructor arguments, Symfony will pass in the services automagically: you don't even have to have your controller extend `AbstractController` if you don't want to.
 
 For this to work, autowire must be true and classes in App\Controller must be tagged with `controller.service_arguments` which can be done like this:
 
@@ -691,6 +691,131 @@ class DefaultControllerTest extends WebTestCase
 
 ## Miscellaneous
 ### Configuration (including DotEnv and ExpressionLanguage components)
+dotenv is a Symfony component, it's available through Symfony flex with the alias dotenv
+
+The .env file is read and parsed on every request, it should be committed to source control and should only contain default values that are good for a development environment.
+
+The values are added to the `$_ENV` and `$_SERVER` PHP variables.
+
+Values in `$_ENV` and `$_SERVER` are **NOT** overridden but values defined in .env files *overwrite* those found in earlier .env files.
+
+The following is from a .env file after a fresh install:
+
+```
+# In all environments, the following files are loaded if they exist,
+# the latter taking precedence over the former:
+#
+#  * .env                contains default values for the environment variables needed by the app
+#  * .env.local          uncommitted file with local overrides
+#  * .env.$APP_ENV       committed environment-specific defaults
+#  * .env.$APP_ENV.local uncommitted environment-specific overrides
+#
+# Real environment variables win over .env files.
+#
+# DO NOT DEFINE PRODUCTION SECRETS IN THIS FILE NOR IN ANY OTHER COMMITTED FILES.
+#
+# Run "composer dump-env prod" to compile .env files for production use (requires symfony/flex >=1.2).
+# https://symfony.com/doc/current/best_practices.html#use-environment-variables-for-infrastructure-configuration
+```
+
+You can use an env variable when setting another env var as follows:
+
+```
+SOME_THING=${SOME_OTHER_THING:-some-default-if-some-other-thing-is-not-set}
+```
+
+You can set env variables to the return value of expression (called embedding commands) using $(command-here):
+
+```
+DATE=$(date)
+```
+
+Symfony Flex can add third-party package variables to the .env file when they’re installed.
+
+* .env - default variables suitable for development, committed to source control
+* .env.local - overrides, not committed to source control, ignored when the environment is test
+* .env.dev, .env.stage, .env.prod - overrides for a specific environment, committed to source control
+* .env.dev.local, env.stage.local. env.prod.local - overrides for a specific environment, not committed to source control
+
+Optimise the loading of environment variables by running:
+
+```
+$ composer dump-env prod
+```
+
+dump-env is available in Symfony Flex 1.2 (or later)
+
+dump-env parses all the .env files and dumps their final values in a file named .env.local.php
+
+List environment variables with:
+
+```
+$ php bin/console debug:container --env-vars
+$ php bin/console debug:container --env-vars app // TODO: Check why this didn't seem to work for me
+$ php bin/console debug:container --env-var=APP_SECRET
+```
+
+TODO: https://symfony.com/doc/5.0/configuration/secrets.html
+
+Requires libsodium (ships with >= PHP7.2)
+
+Create an asymmetric cryptographic public (for encrypting/writing) and private (for decrypting/reading) keys.
+
+dev keys can be safely committed to version control but the prod private key **MUST never be committed** (is .gitignored).
+
+**Setting secrets**
+```
+# set your a default development value (can be overridden locally)
+$ php bin/console secrets:set DATABASE_PASSWORD
+```
+
+```
+# set your production value
+$ php bin/console secrets:set DATABASE_PASSWORD --env=prod
+```
+
+**Accessing secrets**
+```
+# config/packages/doctrine.yaml
+doctrine:
+    dbal:
+        password: '%env(DATABASE_PASSWORD)%'
+```
+
+Environment variables override always take precedence over secrets if they have the same name.
+
+Listing secrets**
+```
+$ php bin/console secrets:list --reveal
+```
+
+**Removing secrets**
+```
+$ php bin/console secrets:remove DATABASE_PASSWORD
+```
+
+If you don't deploy your `config/secrets/prod/prod.decrypt.private.php` file to your production target, you can base64 encode it and set the `SYMFONY_DECRYPTION_SECRET` environment variable.
+
+```
+$ php -r 'echo base64_encode(require "config/secrets/prod/prod.decrypt.private.php");'
+```
+
+To avoid PHP decrypting the secrets at runtime, you can run:
+
+```
+$ php bin/console secrets:decrypt-to-local --force --env=prod
+```
+
+which will decrypt all the secrets to the .env.prod.local file, after which the private key can be removed from the production server.
+
+**Rotating keys**
+
+```
+$ php bin/console secrets:generate-keys --rotate
+```
+
+will regenerate the asymmetric cryptographic keys, decrypt all the secrets with the old key and re-encrypt all the secrets with the new key.
+
 ### Error handling
 ### Code debugging
 ### Deployment best practices
