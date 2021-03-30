@@ -132,7 +132,7 @@ The five directories key values are:
 * public-dir
 * src-dir
 
-### License
+### [License](https://symfony.com/doc/5.0/contributing/code/license.html)
 Symfony source code is MIT license:
 
 > A short and simple permissive license with conditions only requiring preservation of copyright and license notices. Licensed works, modifications, and larger works may be distributed under different terms and without source code.
@@ -147,7 +147,7 @@ Limitations:
 * Liability
 * Warranty
 
-### Components
+### [Components](https://symfony.com/doc/5.0/components/index.html)
 
 If using Symfony components in non-Symfony projects: vendor/autoload.php must be included.
 
@@ -507,7 +507,7 @@ class DefaultController extends AbstractController
     }
 }
 ```
-### Service container
+### [Service container](https://symfony.com/doc/5.0/service_container.html)
 ### Built-in services
 ### [Configuration parameters](https://symfony.com/doc/5.0/configuration.html#configuration-parameters)
 `services._defaults.bind` can be used inject a parameter into any service or controller where the argument is named exactly the same.
@@ -544,11 +544,11 @@ class MyController
 }
 ```
 
-### Services registration
-### Tags
+### [Services registration](https://symfony.com/doc/5.0/service_container.html#creating-configuring-services-in-the-container)
+### [Tags](https://symfony.com/doc/5.0/service_container/tags.html)
 ### Semantic configuration
-### Factories
-### Compiler passes
+### [Factories](https://symfony.com/doc/5.0/service_container/factories.html)
+### [Compiler passes](https://symfony.com/doc/5.0/service_container/compiler_passes.html)
 ### [Services autowiring](https://symfony.com/doc/5.0/service_container/autowiring.html)
 If you type-hint your controller constructor arguments, Symfony will pass in the services automagically: you don't even have to have your controller extend `AbstractController` if you don't want to.
 
