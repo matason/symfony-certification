@@ -459,7 +459,7 @@ TODO: Study up on built in form types - https://symfony.com/doc/5.0/reference/fo
 ### Form events
 ### Form type extensions
 
-## Data Validation
+## [Data Validation](https://symfony.com/doc/5.0/validation.html)
 ### PHP object validation
 ### Built-in validation constraints
 ### Validation scopes
@@ -509,7 +509,41 @@ class DefaultController extends AbstractController
 ```
 ### Service container
 ### Built-in services
-### Configuration parameters
+### [Configuration parameters](https://symfony.com/doc/5.0/configuration.html#configuration-parameters)
+`services._defaults.bind` can be used inject a parameter into any service or controller where the argument is named exactly the same.
+
+```
+# config/services.yaml
+services:
+    _defaults:
+        bind:
+            # pass this value to any $projectDir argument for any service
+            # that's created in this file (including controller arguments)
+            $projectDir: '%kernel.project_dir%'
+```
+
+TODO: https://symfony.com/doc/5.0/service_container.html#services-binding
+
+You can inject all parameters by type-hinting an argument with:
+
+```
+<?php
+
+namespace App\Controller;
+
+use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
+
+class MyController
+{
+    protected $parameters;
+
+    public function __construct(ContainerBagInterface $parameters)
+    {
+        $this->parameters = $parameters;
+    }
+}
+```
+
 ### Services registration
 ### Tags
 ### Semantic configuration
