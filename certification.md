@@ -262,6 +262,14 @@ You can reach inside each *bag* with the `get()` method.
 $request->query->get('name', 'a default value if name is not set');
 ```
 
+**Request::isSecure()**
+> As a bonus, the Request class does a lot of work in the background that you’ll never need to worry about. For example, the isSecure() method checks the three different values in PHP that can indicate whether or not the user is connecting via a secured connection (i.e. HTTPS).
+
+Each of the following checks is made and in turn and the method returns early if any check returns true...
+
+* checks if the request is from a trusted proxy and if it is, determines whether or not the request is over HTTPS by inspecting the [X-Forwarded-Proto](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-Proto)
+*
+
 #### The HttpKernel Component
 #### The Inflector Component
 #### The Intl Component
