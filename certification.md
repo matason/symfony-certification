@@ -37,6 +37,24 @@ Either of the above methods of installation will result in a 5.0.x Symfony proje
 ### SPL
 
 ## HTTP
+[Symfony and HTTP Fundamentals](https://symfony.com/doc/5.0/introduction/http_fundamentals.html)
+
+There are nine HTTP methods defined by the HTTP specification:
+
+* GET
+* POST
+* PUT
+* PATCH
+* DELETE
+* HEAD
+* CONNECT
+* OPTIONS
+* TRACE
+
+**Other resources**
+* [XMLHttpRequest](https://en.wikipedia.org/wiki/XMLHttpRequest)
+* [List of HTTP header fields](https://en.wikipedia.org/wiki/List_of_HTTP_header_fields)
+
 ### Client / Server interaction
 ### Status codes
 ### HTTP request
