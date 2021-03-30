@@ -342,13 +342,115 @@ class SomeController extends AbstractController
 ### Debugging variables
 
 ## Forms
+
+* Build - in the controller or a dedicated form class
+* Render - in a template
+* Process - to validate submitted data and transform it into PHP data
+
 ### Forms creation
+
+**The form builder class**
+In a controller, if you're extending `vendor/symfony/framework-bundle/Controller/AbstractController.php`, you can call:
+
+```
+$this->createFormBuilder()
+```
+The `createFormBuilder()` method on the AbstractController class loads the `vendor/symfony/form/FormFactory.php` class and calls the `createBuilder()` method on it which returns an implementation of the FormBuilderInterface `vendor/symfony/form/FormBuilderInterface.php` which defaults to `vendor/symfony/form/FormBuilder.php`.
+
+The `FormBuilderInterface` extends the `FormConfigBuilderInterface` (`vendor/symfony/form/FormConfigBuilderInterface.php`) which has the following notable methods:
+
+```
+$formBuilder = $this->createFormBuilder();
+
+...
+
+$formBuilder->setMethod() // so that you can set your form action to POST or GET
+$formBuilder->setAction() // so you can control where your form is submitted to
+```
+
+There are at least wo other ways of modifying the form:
+
+**Passing options as the third argument to the $formFactory->create() method**
+
+```
+$formFactory = $container->get('form.factory')->create(TaskForm::class, new Task(), ['method' => 'GET'] );
+```
+
+**In the template form function**
+
+```
+{{ form(form, {method: 'GET'}) }}
+```
+
+[HTTP method overrides](https://symfony.com/doc/5.0/reference/configuration/framework.html#configuration-framework-http-method-override)
+If you set the action (method) of a form to be PUT, PATCH or DELETE, Symfony will include that in a hidden field (_method) on the form and the form will actually be POST'ed but Symfony alters the request method when it hits Symfony so in your controller where your form is submitted to, you could have something like:
+
+```
+if ($request->getMethod() === Request::METHOD_DELETE) { // Do something... }
+```
+
+If you're using [Symfony's reverse proxy](https://symfony.com/doc/5.0/http_cache.html#symfony2-reverse-proxy), you need to add a line to public/index.php so:
+
+```
+// public/index.php
+
+$kernel = new Kernel($_SERVER['APP_ENV'], (bool) $_SERVER['APP_DEBUG']);
+$request = Request::createFromGlobals();
+```
+
+becomes
+
+```
+// public/index.php
+
+$kernel = new Kernel($_SERVER['APP_ENV'], (bool) $_SERVER['APP_DEBUG']);
+Request::enableHttpMethodParameterOverride();
+$request = Request::createFromGlobals();
+```
+
+Create a named form with `$this->get('form.factory')->createNamed('somename', TaskForm::class, new Task());`
+
+If you not extending `AbstractController` and you have autowiring enabled, you can type-hint constructor arguments to inject the form factory as follows:
+
+```
+<?php
+
+namespace App\Controller;
+
+use Symfony\Component\Form\FormFactoryInterface;
+
+class MyController
+{
+    public function __construct(FormFactoryInterface $formFactory)
+    {
+
+        $this->formFactory = $formFactory;
+    }
+}
+```
+
 ### Forms handling
+```
+$form->isSubmitted() && $form->isValid()
+```
+
+The `$form->createView()` method `$form->handleRequest($request)`
+
+TODO: https://symfony.com/doc/5.0/form/direct_submit.html
+
 ### Form types
+It is best to extend `vendor/symfony/form/AbstractType.php`
+
+A single input, a collection of inputs and an entire form are all *form types*.
+
+There are a bunch of form types provided by Symfony and you can add your own.
+
+TODO: Study up on built in form types - https://symfony.com/doc/5.0/reference/forms/types.html
+
 ### Forms rendering with Twig
 ### Forms theming
 ### CSRF protection
-### Handling file upload
+### [Handling file upload](https://symfony.com/doc/5.0/controller/upload_file.html)
 ### Built-in form types
 ### Data transformers
 ### Form events
