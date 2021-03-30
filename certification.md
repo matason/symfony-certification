@@ -549,7 +549,75 @@ class MyController
 ### Semantic configuration
 ### Factories
 ### Compiler passes
-### Services autowiring
+### [Services autowiring](https://symfony.com/doc/5.0/service_container/autowiring.html)
+If you type-hint your controller constructor arguments, Symfony will pass in the services automagically: you don’t even have to have your controller extend `AbstractController` if you don't want to.
+
+For this to work, autowire must be true and classes in App\Controller must be tagged with `controller.service_arguments` which can be done like this:
+
+```
+// config/services.yaml
+services:
+	_defaults:
+		autowire: true
+...
+    App\Controller\:
+        resource: '../src/Controller/'
+        tags: ['controller.service_arguments']
+```
+
+then your controller can be:
+
+```
+// src/Controller/DefaultController.php
+
+<?php
+
+namespace App\Controller;
+
+use Symfony\Component\Form\FormFactoryInterface;
+
+class MyController
+{
+    protected $formBuilder;
+
+    public function __construct(FormFactoryInterface $formFactory)
+    {
+        $this->formBuilder = $formFactory->createBuilder();
+    }
+}
+```
+
+But if you choose not to extend `AbstractController` and don't have autowire enabled, you will need to define your controller as a service and use service binding as follows:
+
+```
+// config/services.yaml
+services:
+    App\Controller\DefaultController:
+        tags: ['controller.service_arguments']
+        bind:
+            $formFactory: '@form.factory'
+```
+
+then in your controller:
+
+```
+// src/Controller/DefaultController.php
+
+<?php
+
+namespace App\Controller;
+
+use Symfony\Component\Form\FormFactoryInterface;
+
+class MyController
+{
+    protected $formBuilder;
+
+    public function index(FormFactoryInterface $formFactory)
+    {
+        $formBuilder = $formFactory->createBuilder();
+    }
+}
 
 ## Security
 ### Authentication
