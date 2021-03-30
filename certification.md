@@ -353,7 +353,7 @@ class SomeController extends AbstractController
 In a controller, if you're extending `vendor/symfony/framework-bundle/Controller/AbstractController.php`, you can call:
 
 ```
-$this->createFormBuilder()
+$this->createFormBuilder();
 ```
 The `createFormBuilder()` method on the AbstractController class loads the `vendor/symfony/form/FormFactory.php` class and calls the `createBuilder()` method on it which returns an implementation of the FormBuilderInterface `vendor/symfony/form/FormBuilderInterface.php` which defaults to `vendor/symfony/form/FormBuilder.php`.
 
@@ -383,6 +383,7 @@ $formFactory = $container->get('form.factory')->create(TaskForm::class, new Task
 ```
 
 [HTTP method overrides](https://symfony.com/doc/5.0/reference/configuration/framework.html#configuration-framework-http-method-override)
+
 If you set the action (method) of a form to be PUT, PATCH or DELETE, Symfony will include that in a hidden field (_method) on the form and the form will actually be POST'ed but Symfony alters the request method when it hits Symfony so in your controller where your form is submitted to, you could have something like:
 
 ```
@@ -421,6 +422,8 @@ use Symfony\Component\Form\FormFactoryInterface;
 
 class MyController
 {
+    protected $formFactory;
+
     public function __construct(FormFactoryInterface $formFactory)
     {
 
