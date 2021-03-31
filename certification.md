@@ -272,7 +272,50 @@ Each of the following checks is made and in turn and the method returns early if
 
 TODO: Check the `Request::getTrustedValues()` method to see if that is checking for a secured connection.
 
-**[The HttpFoundation Respone class](https://symfony.com/doc/5.0/introduction/http_fundamentals.html#symfony-response-object)**
+**[The HttpFoundation Response class](https://symfony.com/doc/5.0/introduction/http_fundamentals.html#symfony-response-object)**
+> Symfony also provides a Symfony\Component\HttpFoundation\Response class: a PHP representation of an HTTP response message. This allows your application to use an object-oriented interface to construct the response that needs to be returned to the client.
+
+**Notable methods**
+```
+$response->setContent() // Takes a string argument.
+$response->setStatusCode() // Takes an integer, the Response class has the HTTP methods as class constants (Response::HTTP_OK).
+```
+
+Response headers can be set, `$response->headers` is a public class property which is an instance of `vendor/symfony/http-foundation/ResponseHeaderBag.php`:
+```
+$response->headers->set('Content-Type', 'text/html');
+```
+
+**A little program**
+```
+<?php
+
+require './vendor/autoload.php';
+
+use Symfony\Component\HttpFoundation\Response;
+
+$response = new Response();
+
+$response->setContent('Hello, world!');
+$response->setStatusCode(Response::HTTP_OK);
+$response->headers->set('Content-Type', 'text/html');
+
+dd($response->__toString());
+
+"""
+HTTP/1.0 200 OK\r\n
+Cache-Control: no-cache, private\r\n
+Content-Type:  text/html\r\n
+Date:          Wed, 31 Mar 2021 14:02:19 GMT\r\n
+\r\n
+Hello, world!
+"""
+```
+There are some helper classes which extend Response and make it easy to return different types of responses:
+* `vendor/symfony/http-foundation/BinaryFileResponse.php`
+* `vendor/symfony/http-foundation/RedirectResponse.php`
+* `vendor/symfony/http-foundation/StreamedResponse.php`
+* `vendor/symfony/http-foundation/JsonResponse.php`
 
 #### The HttpKernel Component
 #### The Inflector Component
@@ -314,7 +357,7 @@ Introduced by Fabien during his Symfony Live 2014 keynote in New York (whilst th
 * Use the same controller action to render and to process forms
 * Redirect after a successful form submission to prevent the user from hitting the refresh button
 
-### Release management
+### [Release management](https://symfony.com/releases)
 ### Backward compatibility promise
 ### Deprecations best practices
 
@@ -327,7 +370,7 @@ $ composer remove symfony/symfony
 ```
 
 ### Framework overloading
-### Release management and roadmap schedule
+### [Release management and roadmap schedule](https://symfony.com/releases)
 ### Framework interoperability and PSRs
 ### Naming conventions
 
