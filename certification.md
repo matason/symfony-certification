@@ -267,8 +267,12 @@ $request->query->get('name', 'a default value if name is not set');
 
 Each of the following checks is made and in turn and the method returns early if any check returns true...
 
-* checks if the request is from a trusted proxy and if it is, determines whether or not the request is over HTTPS by inspecting the [X-Forwarded-Proto](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-Proto)
-*
+* inspects the [X-Forwarded-Proto](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-Proto) header (if the request is from a trusted proxy)
+* inspects the value of `$_SERVER['HTTPS']`
+
+TODO: Check the `Request::getTrustedValues()` method to see if that is checking for a secured connection.
+
+**[The HttpFoundation Respone class](https://symfony.com/doc/5.0/introduction/http_fundamentals.html#symfony-response-object)**
 
 #### The HttpKernel Component
 #### The Inflector Component
@@ -880,6 +884,7 @@ will regenerate the asymmetric cryptographic keys, decrypt all the secrets with 
 ### Filesystem and Finder components
 ### Lock component
 ### Web Profiler, Web Debug Toolbar and Data collectors
+The Web Profiler configuration is located in `config/packages/dev/web_profiler.yaml`
 ### Internationalization and localization (and Intl component)
 
 ## Worth knowing about
