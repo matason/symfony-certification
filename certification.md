@@ -278,7 +278,7 @@ TODO: Check the `Request::getTrustedValues()` method to see if that is checking 
 **Notable methods**
 ```
 $response->setContent() // Takes a string argument.
-$response->setStatusCode() // Takes an integer, the Response class has the HTTP methods as class constants (Response::HTTP_OK).
+$response->setStatusCode() // Takes an integer as its first argument: the Response class has the HTTP methods as class constants (Response::HTTP_OK) and a string status message as its second argument.
 ```
 
 Response headers can be set, `$response->headers` is a public class property which is an instance of `vendor/symfony/http-foundation/ResponseHeaderBag.php`:
@@ -297,13 +297,13 @@ use Symfony\Component\HttpFoundation\Response;
 $response = new Response();
 
 $response->setContent('Hello, world!');
-$response->setStatusCode(Response::HTTP_OK);
+$response->setStatusCode(Response::HTTP_OK, "Every little thing... is gonna be okay.");
 $response->headers->set('Content-Type', 'text/html');
 
 dd($response->__toString());
 
 """
-HTTP/1.0 200 OK\r\n
+HTTP/1.0 200 Every little thing... is gonna be okay.\r\n
 Cache-Control: no-cache, private\r\n
 Content-Type:  text/html\r\n
 Date:          Wed, 31 Mar 2021 14:02:19 GMT\r\n
