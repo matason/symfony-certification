@@ -62,7 +62,7 @@ The body of the response can be returned in different formats (HTML, JSON, XML) 
 * [Internet media types](https://www.iana.org/assignments/media-types/media-types.xhtml)
 
 ### Client / Server interaction
-### Status codes
+### [Status codes](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status)
 ### HTTP request
 ### HTTP response
 ### HTTP methods
@@ -374,7 +374,9 @@ $ composer remove symfony/symfony
 ### Framework interoperability and PSRs
 ### Naming conventions
 
-## Controllers
+## [Controllers](https://symfony.com/doc/5.0/controller.html)
+Every request passes through the `public/index.php` front controller.
+
 ### Naming conventions
 ### The base AbstractController class
 **Provides access to parameters**
@@ -719,7 +721,7 @@ class MyController
 }
 ```
 
-## Security
+## [Security](https://symfony.com/doc/5.0/security.html)
 Run php bin/console symfony check:security regularly.
 ### Authentication
 ### Authorization
