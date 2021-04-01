@@ -26,6 +26,44 @@ Either of the above methods of installation will result in a 5.0.x Symfony proje
 
 ## PHP
 ### PHP API up to PHP 7.2 version
+#### Arrays
+```
+$numbers = array_merge([1, 2, 3], [4, 5, 6]);
+
+var_dump($numbers);
+array(6) {
+  [0]=>
+  int(1)
+  [1]=>
+  int(2)
+  [2]=>
+  int(3)
+  [3]=>
+  int(4)
+  [4]=>
+  int(5)
+  [5]=>
+  int(6)
+}
+```
+
+```
+$a = [2, 3, 4];
+$numbers = array_unshift($a, 1);
+
+var_dump($numbers);
+array(4) {
+  [0]=>
+  int(1)
+  [1]=>
+  int(2)
+  [2]=>
+  int(3)
+  [3]=>
+  int(4)
+}
+```
+
 ### Object Oriented Programming
 ### Namespaces
 ### Interfaces
@@ -232,14 +270,18 @@ $crawler = $browser->request('GET', 'https://symfony.com');
 #### The Contracts Component
 #### [The CssSelector Component](https://symfony.com/doc/5.0/components/css_selector.html)
 > The CSS Selector component converts CSS selectors to XPath expressions using the `vendor/symfony/css-selector/CssSelectorConverter.php::toXPath()` method.
-#### The DependencyInjection Component
+#### [The DependencyInjection Component](https://symfony.com/doc/5.0/components/dependency_injection.html)
 #### [The DomCrawler Component](https://symfony.com/doc/5.0/components/dom_crawler.html)
 > The DomCrawler component eases DOM navigation for HTML and XML documents.
 #### The EventDispatcher Component
 #### [The ExpressionLanguage Component](https://symfony.com/doc/5.0/components/expression_language.html)
 > The ExpressionLanguage component provides an engine that can compile and evaluate expressions. An expression is a one-liner that returns a value (mostly, but not limited to, Booleans).
 #### The Filesystem Component
-#### The Finder Component
+#### [The Finder Component](https://symfony.com/doc/5.0/components/finder.html)
+> The Finder component finds files and directories based on different criteria (name, file size, modification time, etc.) via an intuitive fluent interface.
+
+Exclude directories from matching with the `exclude()` method.
+
 #### The Form Component
 #### The HttpFoundation Component
 **[The HttpFoundation Request class](https://symfony.com/doc/5.0/introduction/http_fundamentals.html#symfony-request-object)**
@@ -331,7 +373,19 @@ There are some helper classes which extend Response and make it easy to return d
 #### The PropertyAccess Component
 #### The PropertyInfo Component
 #### The PSR-7 Bridge
-#### The Security Component
+#### [The Security Component](https://symfony.com/doc/5.0/components/security.html)
+Composed of four, smaller sub-components:
+
+* symfony/security-core
+* symfony/security-http
+* symfony/security-csrf
+* symfony/security-guard
+
+UserCheckers implementing `Symfony\Component\Security\Core\Exception\AccountStatusException\UserCheckerInterface` need to implement the following methods:
+
+* checkPreAuth()
+* checkPostAuth()
+
 #### The Serializer Component
 #### The Stopwatch Component
 #### The String Component
@@ -356,6 +410,8 @@ Introduced by Fabien during his Symfony Live 2014 keynote in New York (whilst th
 * Put as little logic as possible in controllers (thin controllers)
 * Use the same controller action to render and to process forms
 * Redirect after a successful form submission to prevent the user from hitting the refresh button
+* In Symfony versions prior to 4.0, it was recommended to organize your own application code using bundles. This is no longer recommended and bundles should only be used to share code and features between multiple applications.
+* [Bundle naming conventions](https://symfony.com/doc/5.0/bundles/best_practices.html#bundle-name)
 
 ### [Release management](https://symfony.com/releases)
 ### Backward compatibility promise
@@ -438,6 +494,8 @@ class SomeController extends AbstractController
 ### URLs generation
 ### Controller rendering
 ### Translations and pluralization
+[How to Translate Validation Constraint Messages](https://symfony.com/doc/5.0/validation/translations.html)
+> If you're using validation constraints with the Form component, you can translate the error messages by creating a translation resource for the *validators* domain.
 ### String interpolation
 ### Assets management
 ### Debugging variables
@@ -557,7 +615,8 @@ TODO: Study up on built in form types - https://symfony.com/doc/5.0/reference/fo
 ### [Handling file upload](https://symfony.com/doc/5.0/controller/upload_file.html)
 ### Built-in form types
 ### Data transformers
-### Form events
+### [Form events](https://symfony.com/doc/5.0/form/events.html)
+>The Form component provides a structured process to let you customize your forms, by making use of the [EventDispatcher](https://symfony.com/doc/5.0/components/event_dispatcher.html) component. Using form events, you may modify information or fields at different steps of the workflow: from the population of the form to the submission of the data from the request.
 ### Form type extensions
 
 ## [Data Validation](https://symfony.com/doc/5.0/validation.html)
@@ -569,7 +628,7 @@ TODO: Study up on built in form types - https://symfony.com/doc/5.0/reference/fo
 ### Custom callback validators
 ### Violations builder
 
-## Dependency Injection
+## [Dependency Injection](https://symfony.com/doc/5.0/components/dependency_injection.html)
 
 You can constructor-inject parameters as follows:
 ```
@@ -947,3 +1006,23 @@ $ yarn install
 ```
 
 Installing the symfony/webpack-encore-bundle will also create config/packages/assets.yaml and configure Symfony to use the JSON manifest versioning strategy by default.
+
+### [Bundles](https://symfony.com/doc/5.0/bundles.html)
+> A bundle is similar to a plugin in other software, but even better. The core features of Symfony framework are implemented with bundles (FrameworkBundle, SecurityBundle, DebugBundle, etc.) They are also used to add new features in your application via [third-party bundles](https://github.com/search?q=topic%3Asymfony-bundle&type=Repositories).
+
+Bundle classes should extend the abstract class `Symfony\Component\HttpKernel\Bundle\Bundle`.
+
+[Bundle naming conventions](https://symfony.com/doc/5.0/bundles/best_practices.html#bundle-name)
+
+[Bundle directory structure](https://symfony.com/doc/5.0/bundles.html#bundle-directory-structure)
+
+#### [Overriding bundles](https://symfony.com/doc/5.0/bundles/override.html)
+Templates can be overridden by copying them to
+
+### Logical paths
+Logical paths are paths prefixed with @, for example @FooBundle/Resources/config/services.xml
+
+The `vendor/symfony/http-kernel/Kernel.php::locateResource()` method is able to resolve a logical path to a physical path, constructor-inject Kernel by type-hinting `Symfony\Component\HttpKernel\KernelInterface` to make it available in controllers.
+
+### [Performance](https://symfony.com/index.php/doc/5.0/performance.html)
+It's recommended that the `realpath_cache_size` PHP setting in `php.ini` should be set to at least `4096K`.
