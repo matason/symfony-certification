@@ -487,6 +487,14 @@ class SomeController extends AbstractController
 ### Router debugging
 
 ## Templating with Twig
+[Twig Internals](https://twig.symfony.com/doc/3.x/internals.html)
+**Steps performed to render a Twig template**
+The template is loaded, if it's not compiled, the following three steps occur:
+* the lexer tokenizes the template source code
+* the parser converts the token stream into the abstract syntax tree
+* the compiler converts the abstract syntax tree into PHP code
+Finally, the `display()` method of the compiled template is called.
+
 ### Auto escaping
 ### Template inheritance
 ### Global variables
