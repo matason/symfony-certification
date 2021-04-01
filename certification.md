@@ -386,6 +386,8 @@ UserCheckers implementing `Symfony\Component\Security\Core\Exception\AccountStat
 * checkPreAuth()
 * checkPostAuth()
 
+[Security Configuration Reference (SecurityBundle)](https://symfony.com/doc/5.0/reference/configuration/security.html)
+
 #### The Serializer Component
 #### The Stopwatch Component
 #### The String Component
@@ -985,7 +987,13 @@ will regenerate the asymmetric cryptographic keys, decrypt all the secrets with 
 ### Process and Serializer components
 ### Messenger component
 ### Mime and Mailer components
-### Filesystem and Finder components
+### Filesystem and [Finder](https://symfony.com/doc/5.0/components/finder.html) components
+The `Symfony\Component\Finder\Finder` class has a fluent interface and implements [IteratorAggregate](https://www.php.net/manual/en/class.iteratoraggregate.php) interface.
+
+Each iteration of Finder will return an instance of `Symfony\Component\Finder\SplFileInfo` which extends [PHP's SplFileInfo class](https://www.php.net/manual/en/class.splfileinfo.php).
+
+To read the contents of the file, call the `Symfony\Component\Finder\SplFileInfo::getContents()` method.
+
 ### Lock component
 ### Web Profiler, Web Debug Toolbar and Data collectors
 The Web Profiler configuration is located in `config/packages/dev/web_profiler.yaml`
