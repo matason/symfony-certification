@@ -63,6 +63,15 @@ array(4) {
   int(4)
 }
 ```
+#### [References](https://www.php.net/manual/en/language.references.php)
+> References in PHP are a means to access the same variable content by different names.
+> References can be likened to hardlinking in Unix filesystem.
+
+Three usages:
+
+* [assigning by reference](https://www.php.net/manual/en/language.references.whatdo.php#language.references.whatdo.assign)
+* [passing by reference](https://www.php.net/manual/en/language.references.whatdo.php#language.references.whatdo.pass)
+* [returning by reference](https://www.php.net/manual/en/language.references.return.php)
 
 ### Object Oriented Programming
 ### Namespaces
