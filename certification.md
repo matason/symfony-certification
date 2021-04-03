@@ -678,6 +678,14 @@ class DefaultController extends AbstractController
 }
 ```
 ### [Service container](https://symfony.com/doc/5.0/service_container.html)
+[How to Import Configuration Files/Resources](https://symfony.com/doc/5.0/service_container/import.html)
+External service configuration can be imported in two different ways:
+
+* imports
+* services
+
+TODO: Check imports and services is correct.
+
 ### Built-in services
 ### [Configuration parameters](https://symfony.com/doc/5.0/configuration.html#configuration-parameters)
 `services._defaults.bind` can be used inject a parameter into any service or controller where the argument is named exactly the same.
