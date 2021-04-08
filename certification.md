@@ -276,6 +276,67 @@ $crawler = $browser->request('GET', 'https://symfony.com');
 #### The EventDispatcher Component
 #### [The ExpressionLanguage Component](https://symfony.com/doc/5.0/components/expression_language.html)
 > The ExpressionLanguage component provides an engine that can compile and evaluate expressions. An expression is a one-liner that returns a value (mostly, but not limited to, Booleans).
+
+Expression language can be used for (and not limited to):
+* configuration to facilitate more complex logic
+* route annotations when more complex matching is required
+
+[Expression syntax](https://symfony.com/doc/5.0/components/expression_language/syntax.html)
+
+[Supported literals](https://symfony.com/doc/5.0/components/expression_language/syntax.html#supported-literals)
+* strings
+* numbers
+* arrays
+* hashes
+* booleans
+* null
+* exponential
+
+A backslash in a string must be escaped with four backslashes.
+A backslash in a regular expression must be escaped with 8 backslashes.
+Escape the \n control character with an extra backslash, \\n.
+
+When working with objects, properties and methods can be addressed using a . operator... 'fruit.variety' and 'robot.say("Hello")'
+
+Access to constant values is possible with the use of the constant() built in function, 'constant("PHP_VERSION")'... it's the only built in function but [custom functions can be registered and used](https://symfony.com/doc/5.0/components/expression_language/extending.html).
+
+[Supported operators](https://symfony.com/doc/5.0/components/expression_language/syntax.html#supported-operators)
+* Arithmetic operators:
+    * ```+```
+    * ```-```
+    * ```*```
+    * ```/```
+    * ```%```
+    * ```**```
+* Bitwise operators:
+    * ```&```
+    * ```|```
+    * ```^```
+* Comparision operators:
+    * ```==```
+    * ```===```
+    * ```!=```
+    * ```!==```
+    * ```<```
+    * ```>```
+    * ```<=```
+    * ```>=```
+    * ```matches```
+* Logical operators:
+    * ```not or !```
+    * ```and or &&```
+    * ```or or ||```
+* String operators:
+    * ```~```
+* Array operators:
+    * ```in```
+    * ```not in```
+* Numeric operators:
+    * ```..```
+* Ternary operators:
+    * ```foo ? 'yes' : 'no'```
+    * ```foo ?: 'no'```
+    * ```for ? 'yes'```
 #### The Filesystem Component
 #### [The Finder Component](https://symfony.com/doc/5.0/components/finder.html)
 > The Finder component finds files and directories based on different criteria (name, file size, modification time, etc.) via an intuitive fluent interface.
@@ -402,6 +463,7 @@ UserCheckers implementing `Symfony\Component\Security\Core\Exception\AccountStat
 ### Event dispatcher and kernel events
 ### [Official best practices](https://symfony.com/doc/5.0/best_practices.html)
 Introduced by Fabien during his Symfony Live 2014 keynote in New York (whilst there were other Symfony Live conference talks online, I couldn't find any from New York).
+* Use annotations for configuring routes
 * Use Symfony CLI binary to create new projects
 * Use the default Symfony directory structure
 * Use Symfony Flex in projects
@@ -472,6 +534,8 @@ class SomeController extends AbstractController
 ### Built-in internal controllers
 
 ## Routing
+[Creating routes](https://symfony.com/doc/5.0/routing.html#creating-routes)
+Routes can be configured in [YAML, XML, PHP](https://symfony.com/doc/5.0/routing.html#creating-routes-in-yaml-xml-or-php-files) or by using [annotations](https://symfony.com/doc/5.0/routing.html#creating-routes-as-annotations) (annotations is the Symfony recommendation).
 ### Configuration (YAML, XML, PHP & annotations)
 ### Restrict URL parameters
 ### Set default values to URL parameters
