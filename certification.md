@@ -63,6 +63,15 @@ array(4) {
   int(4)
 }
 ```
+#### [References](https://www.php.net/manual/en/language.references.php)
+> References in PHP are a means to access the same variable content by different names.
+> References can be likened to hardlinking in Unix filesystem.
+
+Three usages:
+
+* [assigning by reference](https://www.php.net/manual/en/language.references.whatdo.php#language.references.whatdo.assign)
+* [passing by reference](https://www.php.net/manual/en/language.references.whatdo.php#language.references.whatdo.pass)
+* [returning by reference](https://www.php.net/manual/en/language.references.return.php)
 
 ### Object Oriented Programming
 ### Namespaces
@@ -447,6 +456,8 @@ UserCheckers implementing `Symfony\Component\Security\Core\Exception\AccountStat
 * checkPreAuth()
 * checkPostAuth()
 
+[Security Configuration Reference (SecurityBundle)](https://symfony.com/doc/5.0/reference/configuration/security.html)
+
 #### The Serializer Component
 #### The Stopwatch Component
 #### The String Component
@@ -549,6 +560,14 @@ Routes can be configured in [YAML, XML, PHP](https://symfony.com/doc/5.0/routing
 ### Router debugging
 
 ## Templating with Twig
+[Twig Internals](https://twig.symfony.com/doc/3.x/internals.html)
+**Steps performed to render a Twig template**
+The template is loaded, if it's not compiled, the following three steps occur:
+* the lexer tokenizes the template source code
+* the parser converts the token stream into the abstract syntax tree
+* the compiler converts the abstract syntax tree into PHP code
+Finally, the `display()` method of the compiled template is called.
+
 ### Auto escaping
 ### Template inheritance
 ### Global variables
@@ -732,6 +751,14 @@ class DefaultController extends AbstractController
 }
 ```
 ### [Service container](https://symfony.com/doc/5.0/service_container.html)
+[How to Import Configuration Files/Resources](https://symfony.com/doc/5.0/service_container/import.html)
+External service configuration can be imported in two different ways:
+
+* imports
+* services
+
+TODO: Check imports and services is correct.
+
 ### Built-in services
 ### [Configuration parameters](https://symfony.com/doc/5.0/configuration.html#configuration-parameters)
 `services._defaults.bind` can be used inject a parameter into any service or controller where the argument is named exactly the same.
@@ -1049,7 +1076,13 @@ will regenerate the asymmetric cryptographic keys, decrypt all the secrets with 
 ### Process and Serializer components
 ### Messenger component
 ### Mime and Mailer components
-### Filesystem and Finder components
+### Filesystem and [Finder](https://symfony.com/doc/5.0/components/finder.html) components
+The `Symfony\Component\Finder\Finder` class has a fluent interface and implements [IteratorAggregate](https://www.php.net/manual/en/class.iteratoraggregate.php) interface.
+
+Each iteration of Finder will return an instance of `Symfony\Component\Finder\SplFileInfo` which extends [PHP's SplFileInfo class](https://www.php.net/manual/en/class.splfileinfo.php).
+
+To read the contents of the file, call the `Symfony\Component\Finder\SplFileInfo::getContents()` method.
+
 ### Lock component
 ### Web Profiler, Web Debug Toolbar and Data collectors
 The Web Profiler configuration is located in `config/packages/dev/web_profiler.yaml`
