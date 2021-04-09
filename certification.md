@@ -346,6 +346,8 @@ Access to constant values is possible with the use of the constant() built in fu
     * ```foo ? 'yes' : 'no'```
     * ```foo ?: 'no'```
     * ```for ? 'yes'```
+
+[Caching Expressions Using Parser Caches](https://symfony.com/doc/5.0/components/expression_language/caching.html)
 #### The Filesystem Component
 #### [The Finder Component](https://symfony.com/doc/5.0/components/finder.html)
 > The Finder component finds files and directories based on different criteria (name, file size, modification time, etc.) via an intuitive fluent interface.
@@ -501,8 +503,30 @@ $ composer remove symfony/symfony
 ### Framework overloading
 ### [Release management and roadmap schedule](https://symfony.com/releases)
 ### Framework interoperability and PSRs
-### Naming conventions
+[Accepted](https://www.php-fig.org/psr/#accepted) as of April 2021
+* PSR-1 Basic Coding Standard
+* PSR-3 Logger Interface
+* PSR-4 Autoloading Standard
+* PSR-6 Caching Interface
+* PSR-7 HTTP Message Interface
+* PSR-11 Container Interface
+* PSR-12 Extended Coding Style Guide
+* PSR-13 Hypermedia Links
+* PSR-14 Event Dispatcher
+* PSR-15 HTTP Handlers
+* PSR-16 Simple Cache
+* PSR-17 HTTP Factories
+* PSR-18 HTTP Client
 
+[Abandoned](https://www.php-fig.org/psr/#abandoned)
+* PSR-8 Huggable Interface
+* PSR-9 Security Advisories
+* PSR-10 Security Reporting Process
+
+[Deprecated](https://www.php-fig.org/psr/#deprecated)
+PSR-0 Autoloading Standard
+PSR-2 Coding Style Guide
+### Naming conventions
 ## [Controllers](https://symfony.com/doc/5.0/controller.html)
 Every request passes through the `public/index.php` front controller.
 
