@@ -524,8 +524,8 @@ $ composer remove symfony/symfony
 * PSR-10 Security Reporting Process
 
 [Deprecated](https://www.php-fig.org/psr/#deprecated)
-PSR-0 Autoloading Standard
-PSR-2 Coding Style Guide
+* PSR-0 Autoloading Standard
+* PSR-2 Coding Style Guide
 ### Naming conventions
 ## [Controllers](https://symfony.com/doc/5.0/controller.html)
 Every request passes through the `public/index.php` front controller.
