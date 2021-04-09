@@ -273,7 +273,58 @@ require './vendor/autoload.php';
 $browser = new HttpBrowser(HttpClient::create());
 $crawler = $browser->request('GET', 'https://symfony.com');
 ```
-#### The Cache Component
+#### [The Cache Component](https://symfony.com/doc/5.0/components/cache.html)
+> The Cache component provides features covering simple to advanced caching needs. It natively implements [PSR-6](https://www.php-fig.org/psr/psr-6/) and the [Cache Contracts](https://github.com/symfony/contracts/blob/master/Cache/CacheInterface.php) for greatest interoperability. It is designed for performance and resiliency, ships with ready to use adapters for the most common caching backends. It enables tag-based invalidation and cache stampede protection via locking and early expiration.
+
+> The component also contains adapters to convert between PSR-6, PSR-16 and Doctrine caches. See [Adapters For Interoperability between PSR-6 and PSR-16 Cache](https://symfony.com/doc/5.0/components/cache/psr6_psr16_adapters.html) and [Doctrine Cache Adapter](https://symfony.com/doc/5.0/components/cache/adapters/doctrine_adapter.html).
+
+The component includes two approaches to caching:
+* [PSR-6 caching](https://symfony.com/doc/5.0/components/cache.html#cache-component-psr6-caching)
+* [Cache contracts](https://symfony.com/doc/5.0/components/cache.html#cache-component-contracts) - this is the recommended approach
+
+##### [Cache contracts](https://symfony.com/doc/5.0/components/cache.html#cache-contracts)
+
+Classes extending vendor/symfony/cache-contracts/CacheInterface.php) have two methods:
+* ```get()``` // Used to set (as well as get)
+* ```delete()```
+
+**The get() method arguments**
+* first: string cache key
+* second: callable|CallbackInterface, the callable|CallbackInterface is executed on a cache miss and is responsible for generating and returning the value to cache
+* third: float, the beta (the value used for probabilistic early expiration: defaults to 1.0, 0 disables early recompute, INF will force immediate recompute)
+* fourth: array, metadata
+
+Cache Contracts has built in Stampede prevention: it uses a combination of locking and probabilistic early expiration.
+
+###### [Cache Adapters](https://symfony.com/doc/5.0/components/cache.html#available-cache-adapters)
+* [APCu Cache Adapter](https://symfony.com/doc/5.0/components/cache/adapters/apcu_adapter.html)
+* [Array Cache Adapter](https://symfony.com/doc/5.0/components/cache/adapters/array_cache_adapter.html)
+* [Chain Cache Adapter](https://symfony.com/doc/5.0/components/cache/adapters/chain_adapter.html)
+* [Doctrine Cache Adapter](https://symfony.com/doc/5.0/components/cache/adapters/doctrine_adapter.html)
+* [Filesystem Cache Adapter](https://symfony.com/doc/5.0/components/cache/adapters/filesystem_adapter.html)
+* [Memcached Cache Adapter](https://symfony.com/doc/5.0/components/cache/adapters/memcached_adapter.html)
+* [PDO & Doctrine DBAL Cache Adapter](https://symfony.com/doc/5.0/components/cache/adapters/pdo_doctrine_dbal_adapter.html)
+* [PHP Array Cache Adapter](https://symfony.com/doc/5.0/components/cache/adapters/php_array_cache_adapter.html)
+* [PHP Files Cache Adapter](https://symfony.com/doc/5.0/components/cache/adapters/php_files_adapter.html)
+* [Proxy Cache Adapter](https://symfony.com/doc/5.0/components/cache/adapters/proxy_adapter.html)
+* [Redis Cache Adapter](https://symfony.com/doc/5.0/components/cache/adapters/redis_adapter.html)
+
+##### [PSR-6 caching](https://symfony.com/doc/5.0/components/cache.html#basic-usage-psr-6)
+
+Classes implementing the vendor/psr/cache/src/CacheItemPoolInterface.php interface have the following methods for interacting with the cache:
+* getItem() // Takes a string cache key as its only argument and returns an instance of vendor/psr/cache/src/CacheItemInterface.php
+* delete() // Remove an item from cache by its key
+
+CacheItemInterface has the following methods:
+* set() // Used to set the cache value
+* isHit() // Used to determine whether an item was retrieved from the cache or not
+
+[Cache Invalidation](https://symfony.com/doc/5.0/components/cache/cache_invalidation.html)
+
+Two types of cache invalidation are available:
+* [Tags-based invalidation](https://symfony.com/doc/5.0/components/cache/cache_invalidation.html#cache-component-tags)
+* [Expiration based invalidation](https://symfony.com/doc/5.0/components/cache/cache_invalidation.html#cache-component-expiration)
+
 #### The Config Component
 #### The Console Component
 #### The Contracts Component
@@ -476,6 +527,7 @@ UserCheckers implementing `Symfony\Component\Security\Core\Exception\AccountStat
 ### Event dispatcher and kernel events
 ### [Official best practices](https://symfony.com/doc/5.0/best_practices.html)
 Introduced by Fabien during his Symfony Live 2014 keynote in New York (whilst there were other Symfony Live conference talks online, I couldn't find any from New York).
+* For caching, using the Cache Contracts approach is recommended: it requires less code boilerplate and provides cache stampede protection by default.
 * Use annotations for configuring routes
 * Use Symfony CLI binary to create new projects
 * Use the default Symfony directory structure
