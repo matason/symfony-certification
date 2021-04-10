@@ -85,6 +85,7 @@ Three usages:
 
 ## HTTP
 [Symfony and HTTP Fundamentals](https://symfony.com/doc/5.0/introduction/http_fundamentals.html)
+
 **Other resources**
 * [HTTP1.1 Specification](https://www.w3.org/Protocols/rfc2616/rfc2616.html)
 * [IETF HTTP Working Group documents](https://datatracker.ietf.org/wg/httpbis/documents/)
