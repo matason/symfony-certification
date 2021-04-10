@@ -73,15 +73,19 @@ Three usages:
 * [passing by reference](https://www.php.net/manual/en/language.references.whatdo.php#language.references.whatdo.pass)
 * [returning by reference](https://www.php.net/manual/en/language.references.return.php)
 
-### Object Oriented Programming
+### [Object Oriented Programming](https://www.php.net/manual/en/language.oop5.php)
 ### Namespaces
-### Interfaces
-### Anonymous functions and closures
-### Abstract classes
+* https://phptherightway.com/#namespaces
+* https://www.php.net/language.namespaces
+### [Interfaces](https://www.php.net/manual/en/language.oop5.interfaces.php)
+### [Anonymous functions and closures](https://www.php.net/manual/en/functions.anonymous.php)
+### [Abstract classes]()https://www.php.net/manual/en/language.oop5.abstract.php
 ### Exception and error handling
-### Traits
-### PHP extensions
-### SPL
+* [Exceptions](https://www.php.net/manual/en/language.exceptions.php)
+* [Error handling](https://www.php.net/manual/en/language.errors.basics.php)
+### [Traits](https://www.php.net/language.oop5.traits)
+### [PHP extensions](https://www.php.net/manual/en/extensions.alphabetical.php)
+### [SPL](https://www.php.net/manual/en/book.spl.php)
 
 ## HTTP
 [Symfony and HTTP Fundamentals](https://symfony.com/doc/5.0/introduction/http_fundamentals.html)
