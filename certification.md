@@ -85,21 +85,6 @@ Three usages:
 
 ## HTTP
 [Symfony and HTTP Fundamentals](https://symfony.com/doc/5.0/introduction/http_fundamentals.html)
-
-There are nine HTTP methods defined by the HTTP specification:
-
-* GET
-* POST
-* PUT
-* PATCH
-* DELETE
-* HEAD
-* CONNECT
-* OPTIONS
-* TRACE
-
-The body of the response can be returned in different formats (HTML, JSON, XML) so the `Content-Type` header is used to convey which format (Internet Media Type) is being returned.
-
 **Other resources**
 * [HTTP1.1 Specification](https://www.w3.org/Protocols/rfc2616/rfc2616.html)
 * [IETF HTTP Working Group documents](https://datatracker.ietf.org/wg/httpbis/documents/)
@@ -112,7 +97,18 @@ The body of the response can be returned in different formats (HTML, JSON, XML) 
 ### [Status codes](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status)
 ### HTTP request
 ### HTTP response
+The body of the response can be returned in different formats (HTML, JSON, XML) so the `Content-Type` header is used to convey which format (Internet Media Type) is being returned.
 ### HTTP methods
+There are nine HTTP methods defined by the HTTP specification:
+* GET
+* POST
+* PUT
+* PATCH
+* DELETE
+* HEAD
+* CONNECT
+* OPTIONS
+* TRACE
 ### Cookies
 ### Caching
 ### Content negotiation
