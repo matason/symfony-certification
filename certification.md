@@ -326,7 +326,75 @@ Two types of cache invalidation are available:
 * [Expiration based invalidation](https://symfony.com/doc/5.0/components/cache/cache_invalidation.html#cache-component-expiration)
 
 ###### Tags-based invalidation
+**Symfony Cache Contracts Example**
+```
+<?php
 
+namespace App\Controller;
+
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
+use Symfony\Contracts\Cache\ItemInterface;
+use Symfony\Component\Cache\Adapter\TagAwareAdapter;
+
+class DefaultController extends AbstractController
+{
+    public function index()
+    {
+        $cache = new TagAwareAdapter(new FilesystemAdapter());
+
+        $time = $cache->get('app.time', function(ItemInterface $item) {
+            $item->expiresAfter(10); // Cache the item for 10 seconds.
+            $item->tag('tag_time');
+
+            $now = new \DateTime('now', new \DateTimeZone('Europe/London'));
+
+            return $now->format('H:i:s');
+        });
+
+        // Invalidate all cache items tagged with tag_time.
+        $cache->invalidateTags(['tag_time']);
+
+        return $this->render('default/index.html.twig', ['time' => $time]);
+    }
+}
+```
+**PSR-6 Cache Example**
+```
+<?php
+
+namespace App\Controller;
+
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
+use Symfony\Contracts\Cache\ItemInterface;
+use Symfony\Component\Cache\Adapter\TagAwareAdapter;
+
+class DefaultController extends AbstractController
+{
+    public function index()
+    {
+        $cache = new TagAwareAdapter(new FilesystemAdapter());
+
+        $timeCacheItem = $cache->getItem('app.time');
+        $timeCacheItem->expiresAfter(10); // Cache the item for 10 seconds.
+        $timeCacheItem->tag('tag_time');
+
+        if (!$timeCacheItem->isHit()) {
+            $now = new \DateTime('now', new \DateTimeZone('Europe/London'));
+            $timeCacheItem->set($now->format('H:i:s'));
+            $cache->save($timeCacheItem);
+        }
+
+        $time = $timeCacheItem->get();
+
+        // Invalidate all cache items tagged with tag_time.
+        $cache->invalidateTags(['tag_time']);
+
+        return $this->render('default/index.html.twig', ['time' => $time]);
+    }
+}
+```
 ###### Expiration based invalidation
 **Symfony Cache Contracts Example**
 ```
@@ -347,6 +415,7 @@ class DefaultController extends AbstractController
         $time = $cache->get('app.time', function(ItemInterface $item) {
             $item->expiresAfter(10); // Cache the item for 10 seconds.
             $now = new \DateTime('now', new \DateTimeZone('Europe/London'));
+
             return $now->format('H:i:s');
         });
 
@@ -385,7 +454,6 @@ class DefaultController extends AbstractController
     }
 }
 ```
-
 #### The Config Component
 #### The Console Component
 #### The Contracts Component
