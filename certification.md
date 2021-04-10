@@ -289,7 +289,7 @@ Classes extending vendor/symfony/cache-contracts/CacheInterface.php) have two me
 * ```delete()```
 
 **The get() method arguments**
-* first: string cache key
+* first: string cache key. The cache key must be unique for each cache pool and should only contain the letters `(A-Z, a-z)`, numbers `(0-9)` and the `_` and `.` symbols.
 * second: callable|CallbackInterface, the callable|CallbackInterface is executed on a cache miss and is responsible for generating and returning the value to cache
 * third: float, the beta (the value used for probabilistic early expiration: defaults to 1.0, 0 disables early recompute, INF will force immediate recompute)
 * fourth: array, metadata
@@ -324,6 +324,67 @@ CacheItemInterface has the following methods:
 Two types of cache invalidation are available:
 * [Tags-based invalidation](https://symfony.com/doc/5.0/components/cache/cache_invalidation.html#cache-component-tags)
 * [Expiration based invalidation](https://symfony.com/doc/5.0/components/cache/cache_invalidation.html#cache-component-expiration)
+
+###### Tags-based invalidation
+
+###### Expiration based invalidation
+**Symfony Cache Contracts Example**
+```
+<?php
+
+namespace App\Controller;
+
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
+use Symfony\Contracts\Cache\ItemInterface;
+
+class DefaultController extends AbstractController
+{
+    public function index()
+    {
+        $cache = new FilesystemAdapter();
+
+        $time = $cache->get('app.time', function(ItemInterface $item) {
+            $item->expiresAfter(10); // Cache the item for 10 seconds.
+            $now = new \DateTime('now', new \DateTimeZone('Europe/London'));
+            return $now->format('H:i:s');
+        });
+
+        return $this->render('default/index.html.twig', ['time' => $time]);
+    }
+}
+```
+**PSR-6 Cache Example**
+```
+<?php
+
+namespace App\Controller;
+
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
+use Symfony\Contracts\Cache\ItemInterface;
+
+class DefaultController extends AbstractController
+{
+    public function index()
+    {
+        $cache = new FilesystemAdapter();
+
+        $timeCacheItem = $cache->getItem('app.time');
+        $timeCacheItem->expiresAfter(10);
+
+        if (!$timeCacheItem->isHit()) {
+            $now = new \DateTime('now', new \DateTimeZone('Europe/London'));
+            $timeCacheItem->set($now->format('H:i:s'));
+            $cache->save($timeCacheItem);
+        }
+
+        $time = $timeCacheItem->get();
+
+        return $this->render('default/index.html.twig', ['time' => $time]);
+    }
+}
+```
 
 #### The Config Component
 #### The Console Component
