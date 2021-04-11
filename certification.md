@@ -116,9 +116,6 @@ There are nine HTTP methods defined by the HTTP specification:
 * TRACE
 ### Cookies
 ### [Caching](https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching#varying_responses)
-
-Only GET requests are cached.
-
 The [HTTP vary response header](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Vary) determines how to match future request headers to decide whether a cached response can be used rather than requesting a fresh one from the origin server. It is used by the server to indicate which headers it used when selecting a representation of a resource in a content negotiation algorithm.
 ### [Content negotiation](https://developer.mozilla.org/en-US/docs/Web/HTTP/Content_negotiation)
 > In HTTP, content negotiation is the mechanism that is used for serving different representations of a resource at the same URI, so that the user agent can specify which is best suited for the user (for example, which language of a document, which image format, or which content encoding).
