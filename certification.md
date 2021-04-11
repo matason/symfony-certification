@@ -119,7 +119,7 @@ There are nine HTTP methods defined by the HTTP specification:
 
 Only GET requests are cached.
 
-The [HTTP vary header](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Vary) can be sent by a server in responses to indicate that 
+The [HTTP vary response header](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Vary) determines how to match future request headers to decide whether a cached response can be used rather than requesting a fresh one from the origin server. It is used by the server to indicate which headers it used when selecting a representation of a resource in a content negotiation algorithm.
 ### [Content negotiation](https://developer.mozilla.org/en-US/docs/Web/HTTP/Content_negotiation)
 > In HTTP, content negotiation is the mechanism that is used for serving different representations of a resource at the same URI, so that the user agent can specify which is best suited for the user (for example, which language of a document, which image format, or which content encoding).
 
@@ -128,14 +128,14 @@ The server should determine the best representation of the requested resource to
 * Server-driven negotiation or proactive negotiation (HTTP Headers sent by the user-agent)
 * Agent-driven negotiation or reactive negotiation ([300](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/300) (Multiple Choices) or [406](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/406) (Not Acceptable), [415](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/415) (Unsupported Media Type) HTTP response codes)
 
-#### Server-driven negotiation
+#### [Server-driven negotiation](https://developer.mozilla.org/en-US/docs/Web/HTTP/Content_negotiation#server-driven_content_negotiation)
 Headers:
 * [Accept](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept)
 * [Accept-Charset](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept-Charset)
 * [Accept-Encoding](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept-Encoding)
 * [Accept-Language](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept-Language)
 
-#### Agent-driven negotiation
+#### [Agent-driven negotiation](https://developer.mozilla.org/en-US/docs/Web/HTTP/Content_negotiation#agent-driven_negotiation)
 ### Language detection
 ### Symfony HttpClient component
 
