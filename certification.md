@@ -65,7 +65,7 @@ array(4) {
 ```
 #### [References](https://www.php.net/manual/en/language.references.php)
 > References in PHP are a means to access the same variable content by different names.
-> References can be likened to hardlinking in Unix filesystem.
+> References can be likened to hardlinking in the Unix filesystem.
 
 Three usages:
 
