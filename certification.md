@@ -116,7 +116,11 @@ There are nine HTTP methods defined by the HTTP specification:
 * TRACE
 ### Cookies
 ### [Caching](https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching#varying_responses)
-The [HTTP vary response header](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Vary) determines how to match future request headers to decide whether a cached response can be used rather than requesting a fresh one from the origin server. It is used by the server to indicate which headers it used when selecting a representation of a resource in a content negotiation algorithm.
+> The [HTTP vary response header](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Vary) determines how to match future request headers to decide whether a cached response can be used rather than requesting a fresh one from the origin server. It is used by the server to indicate which headers it used when selecting a representation of a resource in a content negotiation algorithm.
+
+See https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching#varying_responses
+> When a cache receives a request that has a Vary header field, it must not use a cached response by default unless all header fields specified in the Vary header match in both the original (cached) request and the new request.
+
 ### [Content negotiation](https://developer.mozilla.org/en-US/docs/Web/HTTP/Content_negotiation)
 > In HTTP, content negotiation is the mechanism that is used for serving different representations of a resource at the same URI, so that the user agent can specify which is best suited for the user (for example, which language of a document, which image format, or which content encoding).
 
@@ -126,6 +130,8 @@ The server should determine the best representation of the requested resource to
 * Agent-driven negotiation or reactive negotiation ([300](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/300) (Multiple Choices) or [406](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/406) (Not Acceptable), [415](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/415) (Unsupported Media Type) HTTP response codes)
 
 #### [Server-driven negotiation](https://developer.mozilla.org/en-US/docs/Web/HTTP/Content_negotiation#server-driven_content_negotiation)
+In server-driven negotiation, the user-agent sends HTTP headers along with the request to convey the preferred choices of the user.
+
 Headers:
 * [Accept](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept)
 * [Accept-Charset](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept-Charset)
@@ -133,6 +139,8 @@ Headers:
 * [Accept-Language](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept-Language)
 
 #### [Agent-driven negotiation](https://developer.mozilla.org/en-US/docs/Web/HTTP/Content_negotiation#agent-driven_negotiation)
+In agent-driven negotiation, when a server receives an ambiguous request for a resources that has multiple representations, it sends a response (a page with a [300 Multiple Choices](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/300) HTTP status code) inviting the user (or user-agent) to select the preferred representation of the resource.
+
 ### Language detection
 ### Symfony HttpClient component
 
