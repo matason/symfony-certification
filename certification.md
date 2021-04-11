@@ -79,7 +79,7 @@ Three usages:
 * https://www.php.net/language.namespaces
 ### [Interfaces](https://www.php.net/manual/en/language.oop5.interfaces.php)
 ### [Anonymous functions and closures](https://www.php.net/manual/en/functions.anonymous.php)
-### [Abstract classes]()https://www.php.net/manual/en/language.oop5.abstract.php
+### [Abstract classes](https://www.php.net/manual/en/language.oop5.abstract.php)
 ### Exception and error handling
 * [Exceptions](https://www.php.net/manual/en/language.exceptions.php)
 * [Error handling](https://www.php.net/manual/en/language.errors.basics.php)
@@ -115,8 +115,27 @@ There are nine HTTP methods defined by the HTTP specification:
 * OPTIONS
 * TRACE
 ### Cookies
-### Caching
-### Content negotiation
+### [Caching](https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching#varying_responses)
+
+Only GET requests are cached.
+
+The [HTTP vary header](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Vary) can be sent by a server in responses to indicate that 
+### [Content negotiation](https://developer.mozilla.org/en-US/docs/Web/HTTP/Content_negotiation)
+> In HTTP, content negotiation is the mechanism that is used for serving different representations of a resource at the same URI, so that the user agent can specify which is best suited for the user (for example, which language of a document, which image format, or which content encoding).
+
+The server should determine the best representation of the requested resource to return based on two mechanisms:
+
+* Server-driven negotiation or proactive negotiation (HTTP Headers sent by the user-agent)
+* Agent-driven negotiation or reactive negotiation ([300](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/300) (Multiple Choices) or [406](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/406) (Not Acceptable), [415](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/415) (Unsupported Media Type) HTTP response codes)
+
+#### Server-driven negotiation
+Headers:
+* [Accept](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept)
+* [Accept-Charset](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept-Charset)
+* [Accept-Encoding](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept-Encoding)
+* [Accept-Language](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept-Language)
+
+#### Agent-driven negotiation
 ### Language detection
 ### Symfony HttpClient component
 
