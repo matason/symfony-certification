@@ -100,9 +100,10 @@ Three usages:
 ### Client / Server interaction
 ### [Status codes](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status)
 ### HTTP request
+The [Accept](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept) request header is used to convey which content types, expressed as MIME types, the client is able to understand.
 ### HTTP response
-The body of the response can be returned in different formats (HTML, JSON, XML) so the `Content-Type` header is used to convey which format (Internet Media Type) is being returned.
-### HTTP methods
+The body of the response can be returned in different formats (HTML, JSON, XML) so the [Content-Type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Type) entity header (which can be used in both HTTP requests and HTTP responses) is used to convey which format ([Internet Media Type](https://developer.mozilla.org/en-US/docs/Glossary/MIME_type)) is being returned.
+### [HTTP methods](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods)
 There are nine HTTP methods defined by the HTTP specification:
 * GET
 * POST
@@ -113,7 +114,7 @@ There are nine HTTP methods defined by the HTTP specification:
 * CONNECT
 * OPTIONS
 * TRACE
-### Cookies
+### [Cookies](https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies)
 ### [Caching](https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching#varying_responses)
 > The [HTTP vary response header](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Vary) determines how to match future request headers to decide whether a cached response can be used rather than requesting a fresh one from the origin server. It is used by the server to indicate which headers it used when selecting a representation of a resource in a content negotiation algorithm.
 
