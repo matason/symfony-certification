@@ -576,7 +576,7 @@ framework:
             ...
  ```
 
- or on a per request basis when you call the request method (HttpClientInterface::request): you can pass an array of options that will override those set in configuration as the third argument).
+ or on a per request basis when you call the request method (HttpClientInterface::request): you can pass an array of options that will override (or add to) those set in configuration as the third argument).
 
  However, the [max_host_connections](https://symfony.com/doc/5.0/reference/configuration/framework.html#max-host-connections) option cannot be overridden per request. 
 
@@ -617,6 +617,18 @@ class DefaultController extends AbstractController
     }
 }
  ```
+
+ [Handling exceptions](https://symfony.com/doc/5.0/http_client.html#handling-exceptions)
+ There are three types of exceptions:
+
+* Exceptions implementing the `Symfony\Contracts\HttpClient\Exception\HttpExceptionInterface` are thrown when your code does not handle the status codes in the 300-599 range
+* Exceptions implementing the `Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface` are thrown when a lower level issue occurs
+* Exceptions implementing the `Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface` are thrown when a content-type cannot be decoded to the expected representation
+
+Exceptions can occur in calls to methods on the returned `Symfony\Contracts\HttpClient\ResponseInterface` so it's important to wrap not only the initial $client->request() method call but also calls to `ResponseInterface::getHeaders()` for example.
+
+[Interoperability](https://symfony.com/doc/5.0/http_client.html#interoperability)
+> The component is interoperable with four different abstractions for HTTP clients: [Symfony Contracts](https://github.com/symfony/contracts), [PSR-18](https://www.php-fig.org/psr/psr-18/), [HTTPlug v1/v2](https://github.com/php-http/httplug/#readme) and [native PHP streams](https://www.php.net/manual/en/book.stream.php). If your application uses libraries that need any of them, the component is compatible with all of them. They also benefit from autowiring aliases when the framework bundle is used.
 
 #### The HttpFoundation Component
 **[The HttpFoundation Request class](https://symfony.com/doc/5.0/introduction/http_fundamentals.html#symfony-request-object)**
