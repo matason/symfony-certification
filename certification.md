@@ -145,8 +145,8 @@ In agent-driven negotiation, when a server receives an ambiguous request for a r
 The [Accept-Language](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept-Language) HTTP request header advertises which languages the client is able to understand, and which locale variant is preferred.
 
 > If the server cannot serve any matching language, it can theoretically send back a [406](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/406) (Not Acceptable) error code. But, for a better user experience, this is rarely done and more common way is to ignore the Accept-Language header in this case.
-### Symfony HttpClient component
-
+### [Symfony HttpClient component](https://symfony.com/doc/5.0/http_client.html)
+See [The HttpClient Component](#the-httpclient-component)
 ## Symfony Architecture
 ### [Symfony Flex](https://symfony.com/doc/current/setup.html#installing-packages)
 
@@ -563,6 +563,61 @@ Access to constant values is possible with the use of the constant() built in fu
 Exclude directories from matching with the `exclude()` method.
 
 #### The Form Component
+#### [The HttpClient Component](https://symfony.com/doc/5.0/http_client.html)
+> The HttpClient component is a low-level HTTP client with support for both PHP stream wrappers and [cURL](https://curl.se/). It provides utilities to consume APIs and supports synchronous and asynchronous operations.
+
+HttpClient configuration can be set globally in `config/packages/framework.yaml`:
+
+```
+# config/packages/framework.yaml
+framework:
+    http_client:
+        default_options:
+            ...
+ ```
+
+ or on a per request basis when you call the request method (HttpClientInterface::request): you can pass an array of options that will override those set in configuration as the third argument).
+
+ However, the [max_host_connections](https://symfony.com/doc/5.0/reference/configuration/framework.html#max-host-connections) option cannot be overridden per request. 
+
+See the [HttpClient configuration reference](https://symfony.com/doc/5.0/reference/configuration/framework.html#reference-http-client) for a complete list of HttpClient configuration options.
+
+[Scoped client configuration](https://symfony.com/doc/5.0/http_client.html#scoping-client) uses the `Symfony\Component\HttpClient\ScopingHttpClient` class to enable the setting of default configuration *for specific requests*. To use it, add a `scoped_clients` key under the `http_client` key and specify the `scope` regular expression plus the configuration options that will be used when the `scope` regular expression matches the request URL.
+
+Each scoped client configuration block automatically generates a corresponding [named autowiring alias](https://symfony.com/doc/5.0/service_container/autowiring.html#using-aliases-to-enable-autowiring).
+
+**Injecting a named HttpClientInterface autowire alias**
+```
+# config/packages/framework.yaml
+framework:
+    http_client:
+        scoped_clients:
+            symfony_client:
+                base_uri: 'https://symfony.com'
+ ```
+
+ ```
+<?php
+
+namespace App\Controller;
+
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
+
+class DefaultController extends AbstractController
+{
+    /**
+     * $symfonyClient will use passed a HttpClientInterface that is configured
+     * with the symfony_client scoped_client configuration.
+     */
+    public function index(HttpClientInterface $symfonyClient)
+    {
+        $response = $symfonyClient->request('GET', '/what-is-symfony');
+        ....
+    }
+}
+ ```
+
 #### The HttpFoundation Component
 **[The HttpFoundation Request class](https://symfony.com/doc/5.0/introduction/http_fundamentals.html#symfony-request-object)**
 >  The Symfony\Component\HttpFoundation\Request class is an object-oriented representation of the HTTP request message. With it, you have all the request information at your fingertips.
