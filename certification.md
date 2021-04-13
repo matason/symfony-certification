@@ -482,7 +482,30 @@ class DefaultController extends AbstractController
     }
 }
 ```
-#### The Config Component
+#### [The Config Component](https://symfony.com/doc/5.0/components/config.html)
+> The Config component provides several classes to help you find, load, combine, fill and validate configuration values of any kind, whatever their source may be (YAML, XML, INI files, or for instance a database).
+
+##### [Defining and processing configuration values](https://symfony.com/doc/5.0/components/config/definition.html)
+The definition part of the config component is responsible for ensuring that configuration values comply to structural hierarchy (that `connections` appears under `database`) and/or type (that `auto_connect` is a boolean) rules.
+
+The config component also supports first-seen-wins/last-seen-wins strategies for configuration values (with `performNoDeepMerging()` and `cannotBeOverwritten()` methods) and also conditional validation of values: if key A is set, then key B must be set.
+
+##### [Resources](https://symfony.com/doc/5.0/components/config/resources.html)
+* [Locating resources](https://symfony.com/doc/5.0/components/config/resources.html#locating-resources)
+* [Loading resources](https://symfony.com/doc/5.0/components/config/resources.html#resource-loaders)
+* [Loader resolver](https://symfony.com/doc/5.0/components/config/resources.html#finding-the-right-loader)
+
+This is all achieved with the [`Symfony\Component\Config\Definition\Builder\TreeBuilder`](https://symfony.com/doc/5.0/components/config/definition.html#defining-a-hierarchy-of-configuration-values-using-the-treebuilder) class.
+
+[Node type](https://symfony.com/doc/5.0/components/config/definition.html#node-type)
+* scalar (generic type that includes booleans, strings, integers, floats and null)
+* boolean
+* integer
+* float
+* enum (similar to scalar, but it only allows a finite set of values)
+* array
+* variable (no validation)
+
 #### The Console Component
 #### The Contracts Component
 #### [The CssSelector Component](https://symfony.com/doc/5.0/components/css_selector.html)
