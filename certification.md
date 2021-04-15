@@ -731,7 +731,16 @@ There are some helper classes which extend Response and make it easy to return d
 
 #### The HttpKernel Component
 #### The Inflector Component
-#### The Intl Component
+#### [The Intl Component](https://symfony.com/doc/5.0/components/intl.html)
+> This component provides access to the localization data of the [ICU library](http://site.icu-project.org/). It also provides a PHP replacement layer for the C [intl extension](https://www.php.net/manual/en/book.intl.php).
+
+[ICU library](http://site.icu-project.org/)
+> ICU is a mature, widely used set of C/C++ and Java libraries providing Unicode and Globalization support for software applications. ICU is widely portable and gives applications the same results on all platforms and between C/C++ and Java software.
+
+> The replacement layer is limited to the en locale. If you want to use other locales, you should [install the intl extension](https://www.php.net/manual/en/intl.setup.php). There is no conflict between the two because, even if you use the extension, this package can still be useful to access the ICU data.
+
+TODO: https://symfony.com/doc/5.0/translation.html
+
 #### The Ldap Component
 #### The Lock Component
 #### The Mailer Component
