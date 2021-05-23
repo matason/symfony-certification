@@ -768,11 +768,55 @@ $factory = new LockFactory($store);
 $lock = $factory->createLock('some-resource');
 
 if ($lock->acquire()) {
-    // Do processing...
+    // Wrap job in try/catch/finally block as recommended.
+    try {
+        // Do processing...
+    } finally {
+        $lock->release();
+    }
+}
+```
 
+##### [Blocking locks](https://symfony.com/doc/5.0/components/lock.html#blocking-locks)
+In some cases you may want to wait indefinitely to acquire a lock. This can be achieved by requesting _blocking lock_ as follows:
+
+```
+// Create the lock as normal...
+$lock->acquire(true);
+// Code execution will continue here when the lock has been acquired.
+```
+
+##### [Expiring locks](https://symfony.com/doc/5.0/components/lock.html#expiring-locks)
+
+By default, locks are released on instance destruction... however, a _persistant_ lock can be created with...
+
+```
+// Create the lock, variables show arguments.
+$ttl = 300.0;
+$autoRelease = false;
+$lock = $factory->createLock('some-process', $ttl, $autoRelease);
+```
+
+If the job involves unknown iterations, the lock can be _refreshed_ as follows:
+
+```
+$lock = $factory->createLock('some-process', 5.0);
+$lock->aquire();
+try {
+    foreach ($items as $item) {
+        // Process $item.
+
+        // Reset (refresh) the time-to-live to 5 seconds.
+        $lock->refresh();
+
+        // Alternatively, alter the time-to-live...
+        $lock->refresh(10.0);
+    }
+} finally {
     $lock->release();
 }
 ```
+
 #### The Mailer Component
 #### The Messenger Component
 #### The Mime Component
