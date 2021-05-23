@@ -11,15 +11,15 @@ There are two ways of installing Symfony:
 * using the Composer `create project` command
 
 ### Using the Symfony CLI binary
-```
+```bash
 $ symfony new my_project_name --version=5.0 --full
 ```
 
 The above command is a wrapper around the composer create-project command.
 
 ### Using composer create-project
-```
-$composer create-project symfony/website-skeleton:"5.0.*" my_project_name
+```bash
+$ composer create-project symfony/website-skeleton:"5.0.*" my_project_name
 ```
 
 Either of the above methods of installation will result in a 5.0.x Symfony project being installed.
@@ -27,7 +27,7 @@ Either of the above methods of installation will result in a 5.0.x Symfony proje
 ## PHP
 ### PHP API up to PHP 7.2 version
 #### Arrays
-```
+```php
 $numbers = array_merge([1, 2, 3], [4, 5, 6]);
 
 var_dump($numbers);
@@ -47,7 +47,7 @@ array(6) {
 }
 ```
 
-```
+```php
 $a = [2, 3, 4];
 $numbers = array_unshift($a, 1);
 
@@ -153,12 +153,12 @@ See [The HttpClient Component](#the-httpclient-component)
 [Symfony Flex](https://github.com/symfony/flex) is a composer plugin that facilitates the installation of *recipes* using an alias.
 
 So instead of listing out the vendor/name of the packages required:
-```
+```bash
 $ composer require doctrine/orm doctrine/doctrine-bundle doctrine/doctrine-migrations-bundle
 ```
 
 you can instead type:
-```
+```bash
 $ composer require doctrine
 ```
 
@@ -216,7 +216,7 @@ your-project/
 
 NOTE: The location of five directories (bin, config, public, src, var and vendor) can be customised by specifying a key/value pair in the *extra* section of composer.json, for example:
 
-```
+```json
 {
     "extra": {
         "src-dir": "src/App"
@@ -290,7 +290,7 @@ BrowserKit component can:
 
 BrowserKit can also make HTTP request to external sites:
 
-```
+```php
 <?php
 
 use Symfony\Component\BrowserKit\HttpBrowser;
@@ -355,7 +355,7 @@ Two types of cache invalidation are available:
 
 ###### Tags-based invalidation
 **Symfony Cache Contracts Example**
-```
+```php
 <?php
 
 namespace App\Controller;
@@ -388,7 +388,7 @@ class DefaultController extends AbstractController
 }
 ```
 **PSR-6 Cache Example**
-```
+```php
 <?php
 
 namespace App\Controller;
@@ -425,7 +425,7 @@ class DefaultController extends AbstractController
 ```
 ###### Expiration based invalidation
 **Symfony Cache Contracts Example**
-```
+```php
 <?php
 
 namespace App\Controller;
@@ -452,7 +452,7 @@ class DefaultController extends AbstractController
 }
 ```
 **PSR-6 Cache Example**
-```
+```php
 <?php
 
 namespace App\Controller;
@@ -591,7 +591,7 @@ Exclude directories from matching with the `exclude()` method.
 
 HttpClient configuration can be set globally in `config/packages/framework.yaml`:
 
-```
+```yaml
 # config/packages/framework.yaml
 framework:
     http_client:
@@ -610,7 +610,7 @@ See the [HttpClient configuration reference](https://symfony.com/doc/5.0/referen
 Each scoped client configuration block automatically generates a corresponding [named autowiring alias](https://symfony.com/doc/5.0/service_container/autowiring.html#using-aliases-to-enable-autowiring).
 
 **Injecting a named HttpClientInterface autowire alias**
-```
+```yaml
 # config/packages/framework.yaml
 framework:
     http_client:
@@ -619,7 +619,7 @@ framework:
                 base_uri: 'https://symfony.com'
  ```
 
- ```
+ ```php
 <?php
 
 namespace App\Controller;
@@ -659,7 +659,7 @@ Exceptions can occur in calls to methods on the returned `Symfony\Contracts\Http
 
 Incoming PHP variables are made available on the Request object as public properties:
 
-```
+```php
 $request->request // Instance of Symfony\Component\HttpFoundation\ParameterBag, wraps $_GET
 $request->query // Instance of Symfony\Component\HttpFoundation\ParameterBag, wraps $_POST
 $request->cookies // Instance of Symfony\Component\HttpFoundation\ParameterBag, wraps $_COOKIE
@@ -670,7 +670,7 @@ $request->headers // A class implementing the [IteratorAggregate](https://www.ph
 
 You can reach inside each *bag* with the `get()` method.
 
-```
+```php
 $request->query->get('name', 'a default value if name is not set');
 ```
 
@@ -688,18 +688,18 @@ TODO: Check the `Request::getTrustedValues()` method to see if that is checking 
 > Symfony also provides a Symfony\Component\HttpFoundation\Response class: a PHP representation of an HTTP response message. This allows your application to use an object-oriented interface to construct the response that needs to be returned to the client.
 
 **Notable methods**
-```
+```php
 $response->setContent() // Takes a string argument.
 $response->setStatusCode() // Takes an integer as its first argument: the Response class has the HTTP methods as class constants (Response::HTTP_OK) and a string status message as its second argument.
 ```
 
 Response headers can be set, `$response->headers` is a public class property which is an instance of `vendor/symfony/http-foundation/ResponseHeaderBag.php`:
-```
+```php
 $response->headers->set('Content-Type', 'text/html');
 ```
 
 **A little program**
-```
+```php
 <?php
 
 require './vendor/autoload.php';
@@ -757,7 +757,7 @@ I had to upgrade from PHP7.3 to PHP7.4 to satisfy a dependency on laminas/lamina
 
 These two classes are used together to create a lock factory as follows:
 
-```
+```php
 use Symfony\Component\Lock\LockFactory;
 use Symfony\Component\Lock\Store\SemaphoreStore;
 
@@ -780,7 +780,7 @@ if ($lock->acquire()) {
 ##### [Blocking locks](https://symfony.com/doc/5.0/components/lock.html#blocking-locks)
 In some cases you may want to wait indefinitely to acquire a lock. This can be achieved by requesting _blocking lock_ as follows:
 
-```
+```php
 // Create the lock as normal...
 $lock->acquire(true);
 // Code execution will continue here when the lock has been acquired.
@@ -790,7 +790,7 @@ $lock->acquire(true);
 
 By default, locks are released on instance destruction... however, a _persistant_ lock can be created with...
 
-```
+```php
 // Create the lock, variables show arguments.
 $ttl = 300.0;
 $autoRelease = false;
@@ -799,7 +799,7 @@ $lock = $factory->createLock('some-process', $ttl, $autoRelease);
 
 If the job involves unknown iterations, the lock can be _refreshed_ as follows:
 
-```
+```php
 $lock = $factory->createLock('some-process', 5.0);
 $lock->aquire();
 try {
@@ -878,7 +878,7 @@ Introduced by Fabien during his Symfony Live 2014 keynote in New York (whilst th
 Symfony standard edition is no longer available since Symfony 4
 A project using the Symfony standard edition will have symfony/symfony dependency in composer.json
 Remove it with:
-```
+```bash
 $ composer remove symfony/symfony
 ```
 
@@ -917,13 +917,13 @@ Every request passes through the `public/index.php` front controller.
 **Provides access to parameters**
 The AbstractController has a method called getParameter() which takes the string parameter name of the parameter to get.
 
-```
+```yaml
 # config/services.yaml
 parameters:
     app.greeting: 'Hello, world!'
 ```
 
-```
+```php
 <?php
 
 namespace App\Controller;
@@ -1000,14 +1000,14 @@ Finally, the `display()` method of the compiled template is called.
 **The form builder class**
 In a controller, if you're extending `vendor/symfony/framework-bundle/Controller/AbstractController.php`, you can call:
 
-```
+```php
 $this->createFormBuilder();
 ```
 The `createFormBuilder()` method on the AbstractController class loads the `vendor/symfony/form/FormFactory.php` class and calls the `createBuilder()` method on it which returns an implementation of the FormBuilderInterface `vendor/symfony/form/FormBuilderInterface.php` which defaults to `vendor/symfony/form/FormBuilder.php`.
 
 The `FormBuilderInterface` extends the `FormConfigBuilderInterface` (`vendor/symfony/form/FormConfigBuilderInterface.php`) which has the following notable methods:
 
-```
+```php
 $formBuilder = $this->createFormBuilder();
 
 ...
@@ -1020,13 +1020,13 @@ There are at least wo other ways of modifying the form:
 
 **Passing options as the third argument to the $formFactory->create() method**
 
-```
+```php
 $formFactory = $container->get('form.factory')->create(TaskForm::class, new Task(), ['method' => 'GET'] );
 ```
 
 **In the template form function**
 
-```
+```twig
 {{ form(form, {method: 'GET'}) }}
 ```
 
@@ -1034,13 +1034,13 @@ $formFactory = $container->get('form.factory')->create(TaskForm::class, new Task
 
 If you set the action (method) of a form to be PUT, PATCH or DELETE, Symfony will include that in a hidden field (_method) on the form and the form will actually be POST'ed but Symfony alters the request method when it hits Symfony so in your controller where your form is submitted to, you could have something like:
 
-```
+```php
 if ($request->getMethod() === Request::METHOD_DELETE) { // Do something... }
 ```
 
 If you're using [Symfony's reverse proxy](https://symfony.com/doc/5.0/http_cache.html#symfony2-reverse-proxy), you need to add a line to public/index.php so:
 
-```
+```php
 // public/index.php
 
 $kernel = new Kernel($_SERVER['APP_ENV'], (bool) $_SERVER['APP_DEBUG']);
@@ -1049,7 +1049,7 @@ $request = Request::createFromGlobals();
 
 becomes
 
-```
+```php
 // public/index.php
 
 $kernel = new Kernel($_SERVER['APP_ENV'], (bool) $_SERVER['APP_DEBUG']);
@@ -1061,7 +1061,7 @@ Create a named form with `$this->get('form.factory')->createNamed('somename', Ta
 
 If you not extending `AbstractController` and you have autowiring enabled, you can type-hint constructor arguments to inject the form factory as follows:
 
-```
+```php
 <?php
 
 namespace App\Controller;
@@ -1081,7 +1081,7 @@ class MyController
 ```
 
 ### Forms handling
-```
+```php
 $form->isSubmitted() && $form->isValid()
 ```
 
@@ -1120,7 +1120,7 @@ TODO: Study up on built in form types - https://symfony.com/doc/5.0/reference/fo
 ## [Dependency Injection](https://symfony.com/doc/5.0/components/dependency_injection.html)
 
 You can constructor-inject parameters as follows:
-```
+```yaml
 # config/services.yaml
 parameters:
     app.greeting: 'Hello, world!'
@@ -1136,7 +1136,7 @@ services:
             $greeting: '%app.greeting%'
 ```
 and then:
-```
+```php
 <?php
 
 namespace App\Controller;
@@ -1169,7 +1169,7 @@ TODO: Check imports and services is correct.
 ### [Configuration parameters](https://symfony.com/doc/5.0/configuration.html#configuration-parameters)
 `services._defaults.bind` can be used inject a parameter into any service or controller where the argument is named exactly the same.
 
-```
+```yaml
 # config/services.yaml
 services:
     _defaults:
@@ -1183,7 +1183,7 @@ TODO: https://symfony.com/doc/5.0/service_container.html#services-binding
 
 You can inject all parameters by type-hinting an argument with:
 
-```
+```php
 <?php
 
 namespace App\Controller;
@@ -1211,7 +1211,7 @@ If you type-hint your controller constructor arguments, Symfony will pass in the
 
 For this to work, autowire must be true and classes in App\Controller must be tagged with `controller.service_arguments` which can be done like this:
 
-```
+```yaml
 // config/services.yaml
 services:
 	_defaults:
@@ -1224,7 +1224,7 @@ services:
 
 then your controller can be:
 
-```
+```php
 // src/Controller/DefaultController.php
 
 <?php
@@ -1246,7 +1246,7 @@ class MyController
 
 But if you choose not to extend `AbstractController` and don't have autowire enabled, you will need to define your controller as a service and use service binding as follows:
 
-```
+```yaml
 // config/services.yaml
 services:
     App\Controller\DefaultController:
@@ -1257,7 +1257,7 @@ services:
 
 then in your controller:
 
-```
+```php
 // src/Controller/DefaultController.php
 
 <?php
@@ -1316,7 +1316,7 @@ Run ./bin/phpunit in the Symfony project root directory which will install PHPUn
 
 Tests should be in the tests directory... I created Functional/Controller/DefaultControllerTest.php inside the tests directory with the following code:
 
-```
+```php
 <?php
 
 namespace App\Tests\Functional\Controller;
@@ -1396,7 +1396,7 @@ Symfony Flex can add third-party package variables to the .env file when they’
 
 Optimise the loading of environment variables by running:
 
-```
+```bash
 $ composer dump-env prod
 ```
 
@@ -1406,7 +1406,7 @@ dump-env parses all the .env files and dumps their final values in a file named 
 
 List environment variables with:
 
-```
+```bash
 $ php bin/console debug:container --env-vars
 $ php bin/console debug:container --env-vars app // TODO: Check why this didn't seem to work for me
 $ php bin/console debug:container --env-var=APP_SECRET
@@ -1421,18 +1421,18 @@ Create an asymmetric cryptographic public (for encrypting/writing) and private (
 dev keys can be safely committed to version control but the prod private key **MUST never be committed** (is .gitignored).
 
 **Setting secrets**
-```
+```bash
 # set your a default development value (can be overridden locally)
 $ php bin/console secrets:set DATABASE_PASSWORD
 ```
 
-```
+```bash
 # set your production value
 $ php bin/console secrets:set DATABASE_PASSWORD --env=prod
 ```
 
 **Accessing secrets**
-```
+```yaml
 # config/packages/doctrine.yaml
 doctrine:
     dbal:
@@ -1442,24 +1442,24 @@ doctrine:
 Environment variables override always take precedence over secrets if they have the same name.
 
 Listing secrets**
-```
+```bash
 $ php bin/console secrets:list --reveal
 ```
 
 **Removing secrets**
-```
+```bash
 $ php bin/console secrets:remove DATABASE_PASSWORD
 ```
 
 If you don't deploy your `config/secrets/prod/prod.decrypt.private.php` file to your production target, you can base64 encode it and set the `SYMFONY_DECRYPTION_SECRET` environment variable.
 
-```
+```bash
 $ php -r 'echo base64_encode(require "config/secrets/prod/prod.decrypt.private.php");'
 ```
 
 To avoid PHP decrypting the secrets at runtime, you can run:
 
-```
+```bash
 $ php bin/console secrets:decrypt-to-local --force --env=prod
 ```
 
@@ -1467,7 +1467,7 @@ which will decrypt all the secrets to the .env.prod.local file, after which the 
 
 **Rotating keys**
 
-```
+```bash
 $ php bin/console secrets:generate-keys --rotate
 ```
 
@@ -1504,7 +1504,7 @@ Install node.js and yarn package manager first.
 
 If you're using Webpack Encore in a project that has Symfony Flex installed, then all you need to run is:
 
-```
+```bash
 $ composer require symfony/webpack-encore-bundle
 $ yarn install
 ```
