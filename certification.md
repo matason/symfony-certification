@@ -601,7 +601,7 @@ framework:
 
  or on a per request basis when you call the request method (HttpClientInterface::request): you can pass an array of options that will override (or add to) those set in configuration as the third argument).
 
- However, the [max_host_connections](https://symfony.com/doc/5.0/reference/configuration/framework.html#max-host-connections) option cannot be overridden per request. 
+ However, the [max_host_connections](https://symfony.com/doc/5.0/reference/configuration/framework.html#max-host-connections) option cannot be overridden per request.
 
 See the [HttpClient configuration reference](https://symfony.com/doc/5.0/reference/configuration/framework.html#reference-http-client) for a complete list of HttpClient configuration options.
 
@@ -742,7 +742,37 @@ There are some helper classes which extend Response and make it easy to return d
 TODO: https://symfony.com/doc/5.0/translation.html
 
 #### The Ldap Component
-#### The Lock Component
+
+#### [The Lock Component](https://symfony.com/doc/5.0/components/lock.html)
+> The Lock Component creates and manages [locks](https://en.wikipedia.org/wiki/Lock_(computer_science)), a mechanism to provide exclusive access to a shared resource.
+
+The Lock component isn't installed by default (when you've installed Symfony with `symfony new project-name --full`: it needs to be installed separately with `composer require symfony/lock` (or just `composer require lock` if you've got Symfony Flex installed).
+
+I had to upgrade from PHP7.3 to PHP7.4 to satisfy a dependency on laminas/laminas-code.
+
+**Notable classes**
+
+* `Symfony\Component\Lock\LockFactory`
+* `Symfony\Component\Lock\Store\SemaphoreStore`
+
+These two classes are used together to create a lock factory as follows:
+
+```
+use Symfony\Component\Lock\LockFactory;
+use Symfony\Component\Lock\Store\SemaphoreStore;
+
+$store = new SemaphoreStore();
+$factory = new LockFactory($store);
+
+/** @var \Symfony\Component\Lock\LockInterface $lock */
+$lock = $factory->createLock('some-resource');
+
+if ($lock->acquire()) {
+    // Do processing...
+
+    $lock->release();
+}
+```
 #### The Mailer Component
 #### The Messenger Component
 #### The Mime Component
@@ -1416,6 +1446,7 @@ Each iteration of Finder will return an instance of `Symfony\Component\Finder\Sp
 To read the contents of the file, call the `Symfony\Component\Finder\SplFileInfo::getContents()` method.
 
 ### Lock component
+See notes for the [lock component](#the-lock-component) under the Components section.
 ### Web Profiler, Web Debug Toolbar and Data collectors
 The Web Profiler configuration is located in `config/packages/dev/web_profiler.yaml`
 ### Internationalization and localization (and Intl component)
