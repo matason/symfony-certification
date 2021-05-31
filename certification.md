@@ -817,7 +817,29 @@ try {
 }
 ```
 
-#### The Mailer Component
+#### (The Mailer Component)[https://symfony.com/doc/5.0/mailer.html]
+> Symfony's Mailer & [Mime](https://symfony.com/doc/5.0/components/mime.html) components form a _powerful_ system for creating and sending emails - complete with support for multipart messages, Twig integration, CSS inlining, file attachments and a lot more.
+
+Emails are _transported_, (there are various transport mechanisms), Symfony can use SMTP out-of-the-box with the configuration for the DSN (Delivery Status Notification) in the .env file as follows:
+
+```
+# .env
+MAILER_DSN=smtp://user:pass@smtp.example.com:port
+```
+
+NOTE: [Swiftmailer](https://swiftmailer.symfony.com/docs/introduction.html) MAILER_DSN format is different.
+
+```yaml
+# Swiftmailer Configuration
+swiftmailer:
+    transport: "%mailer_transport%"
+    host:      "%mailer_host%"
+    username:  "%mailer_user%"
+    password:  "%mailer_password%"
+    spool:     { type: memory }
+
+```
+
 #### The Messenger Component
 #### The Mime Component
 #### The OptionsResolver Component
