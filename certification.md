@@ -817,7 +817,7 @@ try {
 }
 ```
 
-#### (The Mailer Component)[https://symfony.com/doc/5.0/mailer.html]
+#### [The Mailer Component](https://symfony.com/doc/5.0/mailer.html)
 > Symfony's Mailer & [Mime](https://symfony.com/doc/5.0/components/mime.html) components form a _powerful_ system for creating and sending emails - complete with support for multipart messages, Twig integration, CSS inlining, file attachments and a lot more.
 
 Emails are _transported_, (there are various transport mechanisms), Symfony can use SMTP out-of-the-box with the configuration for the DSN (Delivery Status Notification) in the .env file as follows:
