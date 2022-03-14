@@ -500,6 +500,7 @@ The config component also supports first-seen-wins/last-seen-wins strategies for
 
 ##### [Resources](https://symfony.com/doc/5.0/components/config/resources.html)
 * [Locating resources](https://symfony.com/doc/5.0/components/config/resources.html#locating-resources)
+
 * [Loading resources](https://symfony.com/doc/5.0/components/config/resources.html#resource-loaders)
 * [Loader resolver](https://symfony.com/doc/5.0/components/config/resources.html#finding-the-right-loader)
 
@@ -892,7 +893,7 @@ Introduced by Fabien during his Symfony Live 2014 keynote in New York (whilst th
 * Use Symfony CLI binary to create new projects
 * Use the default Symfony directory structure
 * Use Symfony Flex in projects
-* Keep services private
+* Keep your services private - since Symfony 4.0, every service is defined as private by default, this is to allow for safe container optimisations such as the removal of unused services (if you're using $container->get(), services will need to be public and will be harder to make private later on)
 * Do not inject the container because it hides the actual dependencies and gives too much access... doing so also requires that services be made public
 * Put as little logic as possible in controllers (thin controllers)
 * Use the same controller action to render and to process forms
@@ -1222,6 +1223,24 @@ External service configuration can be imported in two different ways:
 * services
 
 TODO: Check imports and services is correct.
+
+#### [Lazy services](https://symfony.com/doc/5.0/service_container/lazy_services.html)
+If you have expensive-to-instatiate services that aren't always used, you can proxy the service by using the symfony/proxy-manager-bridge (already installed if you used the `--full` option with the Symfony CLI binary to create your project or if you used `composer create-project symfony/website-skeleton`), otherwise, to install:
+
+```bash
+composer require symfony/proxy-manager-bridge
+```
+
+Then all that remains to do is to mark your expensive-to-instantiate services as lazy:
+
+```yaml
+# config/services.yaml
+services:
+    App\MyExpensiveToInstantiateService:
+        lazy: true
+```
+
+Then wherever you inject App\MyExpensiveToInstantiateService, a proxy will be injected and the real service will remain uninstantiated *unless* the code calls upon the service.
 
 ### Built-in services
 ### [Configuration parameters](https://symfony.com/doc/5.0/configuration.html#configuration-parameters)
