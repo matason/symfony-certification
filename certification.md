@@ -906,9 +906,30 @@ Symfony releases follow [semantic versioning](https://semver.org/) and the relea
 * Symfony minor version every six months (May and November) - bug fixes and new features, no breaking changes
 * Symfony major version every two years - may contain breaking changes
 
-LTS (long term support) versions of Symfony are released every two years.
+All major and minor releases are preceded by...
+* four months of development (adding new features and enhancing existing ones)
+* two months of stabilisation (bug fixing, release preparation, third-party libraries, bundles and projects to catch up)
 
-### Backward compatibility promise
+Starting with Symfony 3.x, minor version releases are limited to five version per branch with the last minor version (3.4, 4.4, 5.4 etc) being considered the *LTS (long term support)* version. The other minor versions are considered *standard* versions. LTS versions of Symfony are released every two years.
+
+Standard versions have bugs fixes for eight months and security issue fixes for eight months.
+
+LTS versions have bug fixes for three years and security issue fixes for four years.
+
+### [Backward compatibility promise](https://symfony.com/doc/5.0/contributing/code/bc.html)
+The backward compatibility promise was introduced in Symfony 2.3 and ensures smooth minor release project upgrades with no backward compatibility breaks with the exception of:
+* experimental features
+* code marked with the `@internal` tag
+* situations where a security fix necessitates a backward compatibility break
+
+#### [Using Symfony code](https://symfony.com/doc/5.0/contributing/code/bc.html#using-symfony-code)
+With the exception of code tagged with `@internal`, all...
+* interfaces can be implemented
+* classes can be extended but the adding of a new property or method is considered unsafe, in addition calling private methods or accessing private properties via reflection is considered unsafe
+* traits can be used
+
+#### [Contributing (working on Symfony code)](https://symfony.com/doc/5.0/contributing/code/bc.html#working-on-symfony-code)
+
 ### Deprecations best practices
 
 **Symfony Standard Edition**
