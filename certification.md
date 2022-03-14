@@ -17,6 +17,12 @@ $ symfony new my_project_name --version=5.0 --full
 
 The above command is a wrapper around the composer create-project command.
 
+The Symfony CLI binary can be used to:
+* Create new Symfony applications
+* Run a local web server with TLS support for development purposes
+* Check for security vulnerabilities in a project
+* Seamless integrate with platform.sh (Symfony Cloud, Symfony PaaS)
+
 ### Using composer create-project
 ```bash
 $ composer create-project symfony/website-skeleton:"5.0.*" my_project_name
