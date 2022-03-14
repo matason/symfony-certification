@@ -901,6 +901,13 @@ Introduced by Fabien during his Symfony Live 2014 keynote in New York (whilst th
 * [Bundle naming conventions](https://symfony.com/doc/5.0/bundles/best_practices.html#bundle-name)
 
 ### [Release management](https://symfony.com/releases)
+Symfony releases follow [semantic versioning](https://semver.org/) and the release schedule is:
+* Symfony patch version every month - bug fixes, no breaking changes
+* Symfony minor version every six months (May and November) - bug fixes and new features, no breaking changes
+* Symfony major version every two years - may contain breaking changes
+
+LTS (long term support) versions of Symfony are released every two years.
+
 ### Backward compatibility promise
 ### Deprecations best practices
 
