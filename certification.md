@@ -522,6 +522,23 @@ This is all achieved with the [`Symfony\Component\Config\Definition\Builder\Tree
 #### [The DependencyInjection Component](https://symfony.com/doc/5.0/components/dependency_injection.html)
 #### [The DomCrawler Component](https://symfony.com/doc/5.0/components/dom_crawler.html)
 > The DomCrawler component eases DOM navigation for HTML and XML documents.
+#### [The ErrorHandler Component](https://symfony.com/components/ErrorHandler)
+> Provides tools to manage errors and ease debugging PHP code.
+
+Required by both `symfony/http-kernel` and `symfony/framework-bundle`, depends on `symfony/http-kernel` and `symfony/serializer`.
+
+The value of `$_SERVER['APP_DEBUG']` and `$_ENV['APP_DEBUG']` is assigned in `config/bootstrap.php`... both server and environment variables are set to the same value (a string, either '1' or '0').
+
+`APP_DEBUG` can be set by the HTTP server, for example, `fastcgi_param APP_DEBUG on;` or can be set in `.env.local` however _real_ environment variables always win over those set in `.env.local`.
+
+Then, in `index.php`, if `$_SERVER['APP_DEBUG']`, is true, debug is enabled.
+
+It...
+
+* sets error_reporting to -1 (equivalent to E_ALL)
+* turns `display_errors` off if the process _isn't_ CLI (or PHPDBG)
+* turns `display_errors` on if the process _is_ CLI (or PHPDBG) and `log_errors` is false or `error_log` is set
+
 #### The EventDispatcher Component
 #### [The ExpressionLanguage Component](https://symfony.com/doc/5.0/components/expression_language.html)
 > The ExpressionLanguage component provides an engine that can compile and evaluate expressions. An expression is a one-liner that returns a value (mostly, but not limited to, Booleans).
@@ -1554,6 +1571,8 @@ $ php bin/console secrets:generate-keys --rotate
 will regenerate the asymmetric cryptographic keys, decrypt all the secrets with the old key and re-encrypt all the secrets with the new key.
 
 ### Error handling
+> In Symfony applications, all errors are treated as exceptions, no matter if they are just a 404 Not Found error or a fatal error triggered by throwing some exception in your code.
+
 ### Code debugging
 ### Deployment best practices
 * have the deployment run composer dump-env to dump out variable final values to .env.local.php
