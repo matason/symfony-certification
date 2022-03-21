@@ -942,7 +942,10 @@ $ composer remove symfony/symfony
 ```
 
 ### Framework overloading
+
 ### [Release management and roadmap schedule](https://symfony.com/releases)
+Covered above in [Release management](#release-management)
+
 ### Framework interoperability and PSRs
 [Accepted](https://www.php-fig.org/psr/#accepted) as of April 2021
 * PSR-1 Basic Coding Standard
