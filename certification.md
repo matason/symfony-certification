@@ -900,7 +900,34 @@ UserCheckers implementing `Symfony\Component\Security\Core\Exception\AccountStat
 
 ### Bridges
 ### Code organization
-### Request handling
+### [Request handling](https://symfony.com/doc/5.0/components/http_foundation.html#request)
+
+A `\Symfony\Component\HttpFoundation\Request` object can be created in one of two ways:
+
+```php
+$request = Request::createFromGlobals();
+```
+
+or
+
+```php
+$request = new Request($_GET, $_POST, [], $_COOKIE, $_FILES, $_SERVER);
+```
+
+To ease the task of migrating to Symfony from legacy applications, the `\Symfony\Component\HttpFoundation\Request` class allows, by setter injection, the injection of a _factory_ (a PHP callable) which is a able to create an instance of a Request object.
+
+```php
+use App\LegacyRequest;
+use Symfony\Component\HttpFoundation\Request;
+...
+$legacyRequestFactory = function(array $query = [], array $request = [], array $attributes = [], array $cookies = [], array $files = [], array $server = [], $content = null) {
+    return new LegacyRequest($query, $request, $attributes, $cookies, $files, $server, $content);
+};
+
+Request::setFactory($legacyRequestFactory);
+$request = Request::createFromGlobals();
+```
+
 ### Exception handling
 ### Event dispatcher and kernel events
 ### [Official best practices](https://symfony.com/doc/5.0/best_practices.html)
