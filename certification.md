@@ -1080,6 +1080,9 @@ Routes can be configured in [YAML, XML, PHP](https://symfony.com/doc/5.0/routing
 ### Router debugging
 
 ## Templating with Twig
+### Prerequisites
+* PHP7.2.5
+
 ### [Twig Environment](https://twig.symfony.com/doc/3.x/api.html#basics)
 The Twig environment is an object of class `\Twig\Environment`, instances of this class are used to store configuration and extensions.
 
@@ -1169,6 +1172,24 @@ print $twig->render('index.html.twig', ['greeting' => 'Hello, world!']);
 
 // Render a template from an array which is extending the base.html.twig template in the app directory.
 print $twig->render('important');
+```
+
+### [Rendering a template block](https://twig.symfony.com/doc/3.x/api.html#rendering-templates)
+A template can be loaded and a block rendered as follows:
+
+```php
+<?php
+
+use Twig\Environment;
+use Twig\Loader\FilesystemLoader;
+
+require_once './vendor/autoload.php';
+
+$filesystemLoader = new FilesystemLoader('templates');
+$filesystemLoader->addPath('templates/app'); // Templates referenced without a namespace will be loaded from this directory.
+$twig = new Environment($filesystemLoader);
+$template = $twig->load('index.html.twig');
+print $template->renderBlock('body', ['greeting' => 'Hello, world!']);
 ```
 
 [Twig Internals](https://twig.symfony.com/doc/3.x/internals.html)
