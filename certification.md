@@ -1,21 +1,29 @@
 # Symfony Certification Study Notes
 [Certification FAQ](https://certification.symfony.com/faq.html)
 
-## [Technical Requirements](https://symfony.com/doc/5.0/setup.html#technical-requirements)
-* PHP 7.2.5 or higher with extensions: Ctype, iconv, JSON, PCRE, Session, SimpleXML, and Tokenizer (which are installed by default)
+## [Technical Requirements](https://symfony.com/doc/6.0/setup.html#technical-requirements)
+* PHP 8.0.2 or higher with extensions: Ctype, iconv, PCRE, Session, SimpleXML, and Tokenizer (which are installed by default)
 * Composer
 
-## [Installation](https://symfony.com/doc/5.0/setup.html)
+## [Installation](https://symfony.com/doc/6.0/setup.html)
 There are two ways of installing Symfony:
 * using the [Symfony CLI binary](https://github.com/symfony/cli) (which is not open source, it contains commands to manage Symfony Cloud projects)
 * using the Composer `create project` command
 
 ### Using the Symfony CLI binary
 ```bash
-$ symfony new my_project_name --version=5.0 --full
+$ symfony new my_project_name --version=6.0 --webapp
 ```
 
-The above command is a wrapper around the composer create-project command.
+The above command is a wrapper around the composer create-project command and under the hood runs:
+
+```bash
+$ composer create-project symfony/skeleton /path/to/project/your-project  --no-interaction
+$ git init /path/to/project/your-project
+$ composer require webapp --no-interation
+```
+
+Where [webapp](https://github.com/symfony/recipes/tree/master/symfony/webapp-pack) is a Symfony Flex recipe.
 
 The Symfony CLI binary can be used to:
 * Create new Symfony applications
@@ -25,10 +33,10 @@ The Symfony CLI binary can be used to:
 
 ### Using composer create-project
 ```bash
-$ composer create-project symfony/website-skeleton:"5.0.*" my_project_name
+$ composer create-project symfony/website-skeleton:"6.0.*" my_project_name
 ```
 
-Either of the above methods of installation will result in a 5.0.x Symfony project being installed.
+Either of the above methods of installation will result in a 6.0.x Symfony project being installed.
 
 ## PHP
 ### PHP API up to PHP 7.2 version
