@@ -1080,7 +1080,7 @@ Routes can be configured in [YAML, XML, PHP](https://symfony.com/doc/5.0/routing
 ### Router debugging
 
 ## Templating with Twig
-[Twig Environment](https://twig.symfony.com/doc/3.x/api.html#basics)
+### [Twig Environment](https://twig.symfony.com/doc/3.x/api.html#basics)
 The Twig environment is an object of class `\Twig\Environment`, instances of this class are used to store configuration and extensions.
 
 The `\Twig\Environment` constructor takes a `\Twig\Loader\LoaderInterface` instance as the first parameter and an array of options as the second parameter.
@@ -1100,10 +1100,10 @@ Given the following project directory structure:
 your-project/
 app.php
 +-- templates/
-|   +-- admin
+    +-- admin
     |   +-- base.html.twig
     |   +-- user.html.twig
-|   +-- app
+    +-- app
     |   +-- base.html.twig
     |   +-- index.html.twig
 ```
