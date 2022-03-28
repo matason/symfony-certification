@@ -1162,7 +1162,7 @@ $arrayLoader = new ArrayLoader([
 $twig = new Environment(new ChainLoader([$filesystemLoader, $arrayLoader]));
 
 // Render a template from the admin namespace.
-print $twig->render('@admin/base.html.twig');
+print $twig->render('@admin/user.html.twig');
 
 // Render a template from the app namespace.
 print $twig->render('index.html.twig', ['greeting' => 'Hello, world!']);
