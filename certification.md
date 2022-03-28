@@ -1083,7 +1083,7 @@ Routes can be configured in [YAML, XML, PHP](https://symfony.com/doc/5.0/routing
 ### [Twig Environment](https://twig.symfony.com/doc/3.x/api.html#basics)
 The Twig environment is an object of class `\Twig\Environment`, instances of this class are used to store configuration and extensions.
 
-The `\Twig\Environment` constructor takes a `\Twig\Loader\LoaderInterface` instance as the first parameter and an array of options as the second parameter.
+The `\Twig\Environment` constructor takes a `\Twig\Loader\LoaderInterface` instance as the first argument and an array of options as the second argument.
 
 Templates can be loaded from the filesystem using the `\Twig\Loader\FilesystemLoader` class, which is the preferred way to load templates.
 
