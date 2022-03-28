@@ -18,7 +18,7 @@ $ symfony new my_project_name --version=6.0 --webapp
 The above command is a wrapper around the composer create-project command and under the hood runs:
 
 ```bash
-$ composer create-project symfony/skeleton /path/to/project/your-project  --no-interaction
+$ composer create-project symfony/skeleton /path/to/project/your-project 6.0.* --no-interaction
 $ git init /path/to/project/your-project
 $ composer require webapp --no-interation
 ```
@@ -1080,15 +1080,107 @@ Routes can be configured in [YAML, XML, PHP](https://symfony.com/doc/5.0/routing
 ### Router debugging
 
 ## Templating with Twig
+[Twig Environment](https://twig.symfony.com/doc/3.x/api.html#basics)
+The Twig environment is an object of class `\Twig\Environment`, instances of this class are used to store configuration and extensions.
+
+The `\Twig\Environment` constructor takes a `\Twig\Loader\LoaderInterface` instance as the first parameter and an array of options as the second parameter.
+
+Templates can be loaded from the filesystem using the `\Twig\Loader\FilesystemLoader` class, which is the preferred way to load templates.
+
+There's also the `\Twig\Loader\ArrayLoader` which is configured with template name array keys the template being the array value.
+
+You can also add your own loader classes if you need to load templates from elsewhere... from a database, for example.
+
+The `\Twig\Loader\ChainLoader` can be used to chain loaders together.
+
+### Namespaced Templates
+Given the following project directory structure:
+
+```
+your-project/
+app.php
++-- templates/
+|   +-- admin
+    |   +-- base.html.twig
+    |   +-- user.html.twig
+|   +-- app
+    |   +-- base.html.twig
+    |   +-- index.html.twig
+```
+
+templates can be loaded using namespaces...
+
+```php
+<?php
+
+use Twig\Environment;
+use Twig\Loader\FilesystemLoader;
+
+require_once './vendor/autoload.php';
+
+$filesystemLoader = new FilesystemLoader('templates');
+$filesystemLoader->addPath('templates/app'); // Templates referenced without a namespace will be loaded from this directory.
+$filesystemLoader->addPath('templates/admin', 'admin'); // Templates referenced by the @admin namespace will be loaded from this directory.
+$twig = new Environment($filesystemLoader);
+
+// Render a template from the admin namespace.
+print $twig->render('@admin/base.html.twig');
+
+// Render a template from the app namespace.
+print $twig->render('index.html.twig', ['greeting' => 'Hello, world!']);
+```
+
+The `\Twig\Loader\FilesystemLoader` can take an array of directory paths as the first argument to the constructor:
+
+```php
+$twigLoader = new FilesystemLoader(['new', 'legacy']);
+```
+
+With this configuration, Twig will attempt to load a template from the `new` directory first, then, if it isn't found, it will try to load it from the `legacy` directory.
+
+Here's an example of using the `\Twig\Loader\ChainLoader` and the `\Twig\Loader\ArrayLoader`:
+
+```php
+<?php
+
+use Twig\Environment;
+use Twig\Loader\ArrayLoader;
+use Twig\Loader\ChainLoader;
+use Twig\Loader\FilesystemLoader;
+
+require_once './vendor/autoload.php';
+
+$filesystemLoader = new FilesystemLoader('templates');
+$filesystemLoader->addPath('templates/app'); // Templates referenced without a namespace will be loaded from this directory.
+$filesystemLoader->addPath('templates/admin', 'admin'); // Templates referenced by the @admin namespace will be loaded from this directory.
+
+// The important template extends main/base.html.twig but it could equally extend a namespaced template such as admin/base.html.twig with '{% extends "@admin/base.html.twig" %}'.
+$arrayLoader = new ArrayLoader([
+    'important' => '{% extends "base.html.twig" %}{% block body %}Something important here!{% endblock %}',
+]);
+
+$twig = new Environment(new ChainLoader([$filesystemLoader, $arrayLoader]));
+
+// Render a template from the admin namespace.
+print $twig->render('@admin/base.html.twig');
+
+// Render a template from the app namespace.
+print $twig->render('index.html.twig', ['greeting' => 'Hello, world!']);
+
+// Render a template from an array which is extending the base.html.twig template in the app directory.
+print $twig->render('important');
+```
+
 [Twig Internals](https://twig.symfony.com/doc/3.x/internals.html)
 **Steps performed to render a Twig template**
 The template is loaded, if it's not compiled, the following three steps occur:
-* the lexer tokenizes the template source code
+* the lexer tokenizes the template source code (turns a sequence of characters into a sequence of tokens)
 * the parser converts the token stream into the abstract syntax tree
 * the compiler converts the abstract syntax tree into PHP code
 Finally, the `display()` method of the compiled template is called.
 
-### Auto escaping
+### [Auto escaping](https://twig.symfony.com/doc/3.x/tags/autoescape.html)
+
 ### Template inheritance
 ### Global variables
 ### Filters and functions
