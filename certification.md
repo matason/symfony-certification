@@ -39,7 +39,7 @@ $ composer create-project symfony/website-skeleton:"6.0.*" my_project_name
 Either of the above methods of installation will result in a 6.0.x Symfony project being installed.
 
 ## PHP
-### PHP API up to PHP 7.2 version
+### PHP API up to PHP 8.1 version
 #### Arrays
 ```php
 $numbers = array_merge([1, 2, 3], [4, 5, 6]);
@@ -100,6 +100,10 @@ Three usages:
 ### [Traits](https://www.php.net/language.oop5.traits)
 ### [PHP extensions](https://www.php.net/manual/en/extensions.alphabetical.php)
 ### [SPL](https://www.php.net/manual/en/book.spl.php)
+
+### New in PHP8.1
+#### [Readonly class properties](https://www.php.net/manual/en/language.oop5.properties.php#language.oop5.properties.readonly-properties)
+
 
 ## HTTP
 [Symfony and HTTP Fundamentals](https://symfony.com/doc/5.0/introduction/http_fundamentals.html)
@@ -1079,9 +1083,30 @@ Routes can be configured in [YAML, XML, PHP](https://symfony.com/doc/5.0/routing
 ### User's locale guessing
 ### Router debugging
 
-## Templating with Twig
+## [Templating with Twig](https://twig.symfony.com/doc/3.x/templates.html)
 ### Prerequisites
 * PHP7.2.5
+
+### [Variables](https://twig.symfony.com/doc/3.x/templates.html#variables)
+The dot (.) accessor works on PHP objects and PHP arrays passed to the template:
+
+`mixed.name`
+
+The resolution works as follows:
+
+if `mixed` is an array and `name` is valid, it's used
+if `mixed` is an object
+- and `name` is a valid property, it's used (object propery scope is respected - see [Visibility](https://www.php.net/manual/en/language.oop5.visibility.php))
+- and `name` is a valid method, it's called and the return value used (even `mixed.__construct` can be used)
+- and either `getName`, `isName` or `hasName` is a  valid method, the method is called and the return value used
+
+If none of the above checks are successful, the value resolves to `null`.
+
+PHP arrays can be specifically accessed using the following syntax:
+
+`array['name']`
+
+If array has an element `name`, it's used, otherwise it will resolve to `null`.
 
 ### [Twig Environment](https://twig.symfony.com/doc/3.x/api.html#basics)
 The Twig environment is an object of class `\Twig\Environment`, instances of this class are used to store configuration and extensions.
