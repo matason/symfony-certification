@@ -1108,6 +1108,24 @@ PHP arrays can be specifically accessed using the following syntax:
 
 If array has an element `name`, it's used, otherwise it will resolve to `null`.
 
+It is possible to configure Twig to throw an exception (instead of returning `null`) when the checks above fail by setting [`strict_variables`](https://twig.symfony.com/doc/3.x/api.html#environment_options) to `true`.
+
+Use the [attribute](https://twig.symfony.com/doc/3.x/functions/attribute.html) function to access array values that contain special characters such as `-`:
+
+`{{ attribute(mixed, 'some-thing') }}`
+
+The [attribute](https://twig.symfony.com/doc/3.x/functions/attribute.html) function can also be used to pass arguments to an class method:
+
+`{{ attribute(mixed, 'buildGreeting', ['Hello', 'Chris']) }}`
+
+Global variables of `_self` (current template name), `_context` (context) and `_charset` are always available in a template.
+
+Create a variable with `{% set name = 'Chris' %}`.
+
+Create an array with `{% set fibonacci = [0, 1, 1, 2, 3, 5, 8, 13, 21] %}`
+
+Create an object with `{% set user = { 'name': 'Peter', 'age': '21' } %}`
+
 ### [Twig Environment](https://twig.symfony.com/doc/3.x/api.html#basics)
 The Twig environment is an object of class `\Twig\Environment`, instances of this class are used to store configuration and extensions.
 
