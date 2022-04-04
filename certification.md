@@ -1112,11 +1112,15 @@ It is possible to configure Twig to throw an exception (instead of returning `nu
 
 Use the [attribute](https://twig.symfony.com/doc/3.x/functions/attribute.html) function to access array values that contain special characters such as `-`:
 
-`{{ attribute(mixed, 'some-thing') }}`
+```twig
+{{ attribute(mixed, 'some-thing') }}
+```
 
 The [attribute](https://twig.symfony.com/doc/3.x/functions/attribute.html) function can also be used to pass arguments to an class method:
 
-`{{ attribute(mixed, 'buildGreeting', ['Hello', 'Chris']) }}`
+```twig
+{{ attribute(mixed, 'buildGreeting', ['Hello', 'Chris']) }}
+```
 
 Global variables of `_self` (current template name), `_context` (context) and `_charset` are always available in a template.
 
@@ -1133,6 +1137,22 @@ Two whitespace control modifier characters enable the removal of whitespace befo
 `{{~ ~}}` // Removes whitespace before and after the variable (exluding newlines)
 
 In addition, the `spaceless` filter can be used, variables are piped through it using the `|` symbol or alternatively, the filter can be applied to a section of the template using the [`apply`](https://twig.symfony.com/doc/3.x/tags/apply.html) tag.
+
+### [Filters](https://twig.symfony.com/doc/3.x/filters/index.html)
+#### [Slice](https://twig.symfony.com/doc/3.x/filters/slice.html)
+The `slice` filter takes two arguments, the start and the length:
+
+```twig
+{{ '123456'|slice(4, 1) }} // 5
+```
+
+`slice` has an alternative shortcut notation, the above can be written:
+
+```twig
+{{ '123456'[4:1] }} // 5
+```
+
+An optional third argument can be passed to `slice`: passing the boolean `true` will preserve the array keys (when operating on an array), passing the boolean `false` will not.
 
 ### [Twig Environment](https://twig.symfony.com/doc/3.x/api.html#basics)
 The Twig environment is an object of class `\Twig\Environment`, instances of this class are used to store configuration and extensions.
