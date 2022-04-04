@@ -1126,6 +1126,14 @@ Create an array with `{% set fibonacci = [0, 1, 1, 2, 3, 5, 8, 13, 21] %}`
 
 Create an object with `{% set user = { 'name': 'Peter', 'age': '21' } %}`
 
+### [Whitespace control](https://twig.symfony.com/doc/3.x/templates.html#whitespace-control)
+Two whitespace control modifier characters enable the removal of whitespace before and/or after the variable or expression:
+
+`{{- -}}` // Removes whitespace before and after the variable (including newlines)
+`{{~ ~}}` // Removes whitespace before and after the variable (exluding newlines)
+
+In addition, the `spaceless` filter can be used, variables are piped through it using the `|` symbol or alternatively, the filter can be applied to a section of the template using the [`apply`](https://twig.symfony.com/doc/3.x/tags/apply.html) tag.
+
 ### [Twig Environment](https://twig.symfony.com/doc/3.x/api.html#basics)
 The Twig environment is an object of class `\Twig\Environment`, instances of this class are used to store configuration and extensions.
 
