@@ -166,7 +166,7 @@ The [Accept-Language](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/
 ### [Symfony HttpClient component](https://symfony.com/doc/5.0/http_client.html)
 See [The HttpClient Component](#the-httpclient-component)
 ## Symfony Architecture
-### [Symfony Flex](https://symfony.com/doc/current/setup.html#installing-packages)
+### [Symfony Flex](https://symfony.com/doc/6.0/setup.html#installing-packages)
 
 [Symfony Flex](https://github.com/symfony/flex) is a composer plugin that facilitates the installation of *recipes* using an alias.
 
@@ -903,7 +903,7 @@ UserCheckers implementing `Symfony\Component\Security\Core\Exception\AccountStat
 
 #### The Serializer Component
 #### The Stopwatch Component
-#### The String Component
+#### [The String Component](https://symfony.com/doc/6.0/components/string.html)
 #### The Validator Component
 #### The VarDumper Component
 #### The VarExporter Component
@@ -1128,7 +1128,7 @@ Create a variable with `{% set name = 'Chris' %}`.
 
 Create an array with `{% set fibonacci = [0, 1, 1, 2, 3, 5, 8, 13, 21] %}`
 
-Create an object with `{% set user = { 'name': 'Peter', 'age': '21' } %}`
+Create an associative array with `{% set user = { 'name': 'Peter', 'age': '21' } %}`
 
 ### [Whitespace control](https://twig.symfony.com/doc/3.x/templates.html#whitespace-control)
 Two whitespace control modifier characters enable the removal of whitespace before and/or after the variable or expression:
@@ -1688,7 +1688,7 @@ The following is from a .env file after a fresh install:
 # DO NOT DEFINE PRODUCTION SECRETS IN THIS FILE NOR IN ANY OTHER COMMITTED FILES.
 #
 # Run "composer dump-env prod" to compile .env files for production use (requires symfony/flex >=1.2).
-# https://symfony.com/doc/current/best_practices.html#use-environment-variables-for-infrastructure-configuration
+# https://symfony.com/doc/6.0/best_practices.html#use-environment-variables-for-infrastructure-configuration
 ```
 
 You can use an env variable when setting another env var as follows:
@@ -1815,7 +1815,7 @@ The Web Profiler configuration is located in `config/packages/dev/web_profiler.y
 
 ## Worth knowing about
 
-### [Maker bundle](https://symfony.com/doc/current/bundles/SymfonyMakerBundle/index.html)
+### [Maker bundle](https://symfony.com/doc/6.0/bundles/SymfonyMakerBundle/index.html)
 
 ### [Webpack Encore](https://symfony.com/doc/5.0/frontend/encore/installation.html)
 Install node.js and yarn package manager first.
