@@ -165,7 +165,9 @@ The [Accept-Language](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/
 > If the server cannot serve any matching language, it can theoretically send back a [406](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/406) (Not Acceptable) error code. But, for a better user experience, this is rarely done and more common way is to ignore the Accept-Language header in this case.
 ### [Symfony HttpClient component](https://symfony.com/doc/5.0/http_client.html)
 See [The HttpClient Component](#the-httpclient-component)
-## Symfony Architecture
+## [Symfony Architecture](https://symfony.com/doc/6.0/quick_tour/the_architecture.html)
+
+
 ### [Symfony Flex](https://symfony.com/doc/6.0/setup.html#installing-packages)
 
 [Symfony Flex](https://github.com/symfony/flex) is a composer plugin that facilitates the installation of *recipes* using an alias.
@@ -1591,6 +1593,12 @@ class MyController
         $formBuilder = $formFactory->createBuilder();
     }
 }
+```
+
+You can list the available services that can be autowired with the following command:
+
+```
+php bin/console debug:autowiring
 ```
 
 ## [Security](https://symfony.com/doc/5.0/security.html)
