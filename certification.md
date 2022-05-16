@@ -915,11 +915,11 @@ swiftmailer:
 #### The Messenger Component
 #### The Mime Component
 #### The OptionsResolver Component
-#### [The PHPUnit Bridge](https://symfony.com/doc/current/components/phpunit_bridge.html)
+#### [The PHPUnit Bridge](https://symfony.com/doc/6.0/components/phpunit_bridge.html)
 #### The Process Component
 #### The PropertyAccess Component
 #### The PropertyInfo Component
-#### [The PSR-7 Bridge](https://symfony.com/doc/current/components/psr7.html)
+#### [The PSR-7 Bridge](https://symfony.com/doc/6.0/components/psr7.html)
 #### [The Runtime Component](https://symfony.com/doc/6.0/components/runtime.html)
 >The Runtime Component decouples the bootstrapping logic from any global state to make sure the application can run with runtimes like PHP-PM, ReactPHP, Swoole, etc. without any changes.
 
@@ -995,7 +995,7 @@ $request = Request::createFromGlobals();
 ```
 
 ### Exception handling
-### [Event dispatcher](https://symfony.com/6.0/current/components/event_dispatcher.html#the-dispatcher) and [kernel events](https://symfony.com/doc/current/reference/events.html#kernel-events)
+### [Event dispatcher](https://symfony.com/6.0/components/event_dispatcher.html#the-dispatcher) and [kernel events](https://symfony.com/doc/6.0/reference/events.html#kernel-events)
 #### Event dispatcher
 > The dispatcher is the central object of the event dispatcher system. In general, a single dispatcher is created, which maintains a registry of listeners. When an event is dispatched via the dispatcher, it notifies all listeners registered with that event.
 
@@ -1004,19 +1004,49 @@ $request = Request::createFromGlobals();
 
 There are four methods available on a KernelEvent...
 
-* getRequestType - Returns the type of the request (HttpKernelInterface::MAIN_REQUEST or HttpKernelInterface::SUB_REQUEST)
-* getKernel - Returns the Kernel handling the request
-* getRequest - Returns the current Request being handled
-* isMainRequest - Returns true if getRequestType === HttpKernelInterface::MAIN_REQUEST
+* `getRequestType` - Returns the type of the request (`HttpKernelInterface::MAIN_REQUEST` or `HttpKernelInterface::SUB_REQUEST`)
+* `getKernel` - Returns the Kernel handling the request
+* `getRequest` - Returns the current Request being handled
+* `isMainRequest` - Returns true if the `getRequestType` returns `HttpKernelInterface::MAIN_REQUEST`
 
 ##### [kernel.request](https://symfony.com/doc/6.0/components/http_kernel.html#1-the-kernel-request-event)
-> Typically used to add more information to the Request, initialize parts of the system, or return a Response if possible (e.g. a security layer that denies access).
+> Typically used to add more information to the `Request`, initialize parts of the system, or return a `Response` if possible (e.g. a security layer that denies access).
 
-##### [kernel.controller](https://symfony.com/doc/current/components/http_kernel.html#3-the-kernel-controller-event)
-> Typically used to initialise things needed by the controller (such as param converters) or even to change the controller entirely just before the controller is executed.
+One particular listener, the `RouterListener` listens to the `kernel.request` event and adds, if it can, the controller that was matched to the `Request` to the `Request` attributes under the `_controller` key:
+
+```php
+array (
+  '_controller' => 'App\\Controller\\DefaultController::default',
+)
+```
+
+This is then used by the Controller Resolver (unless a custom Controller Resolver has been injected into the `HttpKernel`).
+
+##### The Controller Resolver
+After dispatching the `kernel.request` event but before dispatching the `kernel.controller` event, a Controller Resolver is used to resolve the Controller. The Controller Resolver is constructor injected into the `HttpKernel`, this means an application can inject a custom Controller Resolver if required.
+
+The Controller Resolver must implement the `\Symfony\Component\HttpKernel\Controller\ControllerResolverInterface` interface. This interface defines a single method, `getController` which takes an instance of `\Symfony\Component\HttpFoundation\Request` as its only argument. The method must return a `callable` or `false` if it cannot resolve to a Controller.
+
+The Symfony Framework Bundle, by default, injects the `\Symfony\Bundle\FrameworkBundle\Controller\ControllerResolver` class which extends the `\Symfony\Component\HttpKernel\Controller\ContainerControllerResolver` class which in turn extends the `\Symfony\Component\HttpKernel\Controller\ControllerResolver` class. This class relies on `_controller` having been set in the `Request` attributes, and if it has, it does its best to resolve to a `Controller`.
+
+##### [kernel.controller](https://symfony.com/doc/6.0/components/http_kernel.html#3-the-kernel-controller-event)
+> This event is dispatched after the controller to be executed has been resolved but before executing it. This event is typically used to initialise things needed by the controller (such as param converters) or even to _change_ the controller entirely.
+
+After dispatching the `kernel.controller` event but before dispatching the `kernel.controller_arguments` event, an Argument Resolver is used to resolve the arguments that are required `Controller` returned by the Controller Resolver. The Argument Resolver is constructor injected into the `HttpKernel` and can be overridden in the same way as the Controller Resolver.
+
+The Argument Resolver must implement the `\Symfony\Component\HttpKernel\Controller\ArgumentResolverInterface` interface. This interface defines a single method, `getArguments` which takes an instance of `\Symfony\Component\HttpFoundation\Request` as its first argument and a `callable`, the `Controller` as its second argument. The method must return an array.
+
+The Symfony Framework Bundle, by default, injects the `\Symfony\Component\HttpKernel\Controller\ArgumentResolver` class.
 
 
-* kernel.controller_arguments
+
+
+##### [kernel.controller_arguments](https://symfony.com/doc/6.0/components/http_kernel.html#4-getting-the-controller-arguments)
+
+
+
+
+
 * kernel.view
 * kernel.response
 * kernel.finish_request
