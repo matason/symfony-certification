@@ -100,10 +100,20 @@ Three usages:
 ### [Traits](https://www.php.net/language.oop5.traits)
 ### [PHP extensions](https://www.php.net/manual/en/extensions.alphabetical.php)
 ### [SPL](https://www.php.net/manual/en/book.spl.php)
+### [Callable](https://www.php.net/manual/en/language.types.callable.php)
+A PHP callable is a PHP variable that can be used by the call_user_func() function and returns true when passed to the is_callable() function.
+
+It can be...
+
+* an instance of [Closure](https://www.php.net/manual/en/class.closure.php)
+* an object implementing an `__invoke()` method
+* a string representing a function `$a = 'strlen'($b);`
+* an array representing an object method or a class method
+
+#### [First class callable syntax](https://www.php.net/manual/en/functions.first_class_callable_syntax.php)
 
 ### New in PHP8.1
 #### [Readonly class properties](https://www.php.net/manual/en/language.oop5.properties.php#language.oop5.properties.readonly-properties)
-
 
 ## HTTP
 [Symfony and HTTP Fundamentals](https://symfony.com/doc/5.0/introduction/http_fundamentals.html)
@@ -529,7 +539,23 @@ This is all achieved with the [`Symfony\Component\Config\Definition\Builder\Tree
 * array
 * variable (no validation)
 
-#### The Console Component
+#### [The Console Component](https://symfony.com/doc/6.0/components/console.html)
+> The Console component eases the creation of beautiful and testable command line interfaces.
+>
+> The Console component allows you to create command-line commands. Your console commands can be used for any recurring task, such as cronjobs, imports, or other batch jobs.
+
+List available console commands with:
+
+```bash
+php bin/console list
+```
+
+##### Creating custom commands
+* create a class that extends `Symfony\Component\Console\Command\Command`
+* give it a `$defaultName` protected static property and a $defaultDescription protected static property (which is faster than using the `setDescription()` method because classes don't need to be instantiated to retrieve the description)
+* code your command in a protected execute() method which _must_ return an integer, use these constants: Command::SUCCESS, Command::FAILURE or Command::INVALID
+* if you implement a constructor method in the custom command, be sure to call `parent::__construct()` _after_ (not before) your code... this ensures that everything required in the `configure()` method is available
+
 #### The Contracts Component
 #### [The CssSelector Component](https://symfony.com/doc/5.0/components/css_selector.html)
 > The CSS Selector component converts CSS selectors to XPath expressions using the `vendor/symfony/css-selector/CssSelectorConverter.php::toXPath()` method.
@@ -553,7 +579,11 @@ It...
 * turns `display_errors` off if the process _isn't_ CLI (or PHPDBG)
 * turns `display_errors` on if the process _is_ CLI (or PHPDBG) and `log_errors` is false or `error_log` is set
 
-#### The EventDispatcher Component
+#### [The EventDispatcher Component](https://symfony.com/doc/6.0/components/event_dispatcher.html)
+> The EventDispatcher component provides tools that allow your application components to communicate with each other by dispatching events and listening to them.
+
+> The Symfony EventDispatcher component implements the [Mediator](https://en.wikipedia.org/wiki/Mediator_pattern) and [Observer](https://en.wikipedia.org/wiki/Observer_pattern) design patterns.
+
 #### [The ExpressionLanguage Component](https://symfony.com/doc/5.0/components/expression_language.html)
 > The ExpressionLanguage component provides an engine that can compile and evaluate expressions. An expression is a one-liner that returns a value (mostly, but not limited to, Booleans).
 
@@ -769,7 +799,9 @@ There are some helper classes which extend Response and make it easy to return d
 * `vendor/symfony/http-foundation/StreamedResponse.php`
 * `vendor/symfony/http-foundation/JsonResponse.php`
 
-#### The HttpKernel Component
+#### [The HttpKernel Component](https://symfony.com/doc/6.0/components/http_kernel.html)
+> The HttpKernel component provides a structured process for converting a Request into a Response by making use of the EventDispatcher component. It's flexible enough to create a full-stack framework (Symfony), a micro-framework (Silex) or an advanced CMS system (Drupal).
+
 #### The Inflector Component
 #### [The Intl Component](https://symfony.com/doc/5.0/components/intl.html)
 > This component provides access to the localization data of the [ICU library](http://site.icu-project.org/). It also provides a PHP replacement layer for the C [intl extension](https://www.php.net/manual/en/book.intl.php).
@@ -883,11 +915,22 @@ swiftmailer:
 #### The Messenger Component
 #### The Mime Component
 #### The OptionsResolver Component
-#### The PHPUnit Bridge
+#### [The PHPUnit Bridge](https://symfony.com/doc/current/components/phpunit_bridge.html)
 #### The Process Component
 #### The PropertyAccess Component
 #### The PropertyInfo Component
-#### The PSR-7 Bridge
+#### [The PSR-7 Bridge](https://symfony.com/doc/current/components/psr7.html)
+#### [The Runtime Component](https://symfony.com/doc/6.0/components/runtime.html)
+>The Runtime Component decouples the bootstrapping logic from any global state to make sure the application can run with runtimes like PHP-PM, ReactPHP, Swoole, etc. without any changes.
+
+Composer based projects need to `require __DIR__./vendor/autoload.php` so that classes in dependencies can be used in the project.
+
+The Runtime component is a Composer plugin which creates a wrapper around `vendor/autoload.php`.
+
+The front controller was changed in the [5.3 version of the Framework Bundle](https://github.com/symfony/recipes/commit/9a90e6978504aabb3e897e65d485c7d02f792462#diff-86a904249c9c68d907b79b4300fbb8a550c31e9d7a0572865a9eda5c7a144c3e) to leverage the new Runtime component.
+
+
+
 #### [The Security Component](https://symfony.com/doc/5.0/components/security.html)
 Composed of four, smaller sub-components:
 
@@ -913,6 +956,15 @@ UserCheckers implementing `Symfony\Component\Security\Core\Exception\AccountStat
 #### The Yaml Component
 
 ### Bridges
+I couldn't find anything in the official Symfony documentation when I searched for bridge (or bridges) other than links to
+* [The PSR-7 Bridge](https://symfony.com/doc/6.0/components/psr7.html) - see [The PSR-7 Bridge](#the-psr-7-bridge)
+* [The PHPUnit Bridge](https://symfony.com/doc/6.0/components/phpunit_bridge.html) - see [The PHPUnit Bridge](#the-phpunit-bridge)
+
+I found [this](https://stackoverflow.com/questions/11888522/what-are-symfony-bridges-bundles-and-vendor) Stack Overflow post from August 2017:
+
+> A bridge is a set of classes that aims at extending a library into Symfony2. A bridge is part of the core. You can find a bridge for the third libraries that could be in the core (Twig, Doctrine, Propel, Monolog, etc.). If you don't want to use Doctrine as ORM, then you don't care about the EntityType. That's why this class is in the bridge.
+> -- <cite>[Will Durand][1]</cite>
+
 ### Code organization
 ### [Request handling](https://symfony.com/doc/5.0/components/http_foundation.html#request)
 
@@ -943,7 +995,52 @@ $request = Request::createFromGlobals();
 ```
 
 ### Exception handling
-### Event dispatcher and kernel events
+### [Event dispatcher](https://symfony.com/6.0/current/components/event_dispatcher.html#the-dispatcher) and [kernel events](https://symfony.com/doc/current/reference/events.html#kernel-events)
+#### Event dispatcher
+> The dispatcher is the central object of the event dispatcher system. In general, a single dispatcher is created, which maintains a registry of listeners. When an event is dispatched via the dispatcher, it notifies all listeners registered with that event.
+
+#### Kernel events
+> Each event dispatched by the HttpKernel component is a subclass of [KernelEvent](https://github.com/symfony/symfony/blob/6.0/src/Symfony/Component/HttpKernel/Event/KernelEvent.php).
+
+There are four methods available on a KernelEvent...
+
+* getRequestType - Returns the type of the request (HttpKernelInterface::MAIN_REQUEST or HttpKernelInterface::SUB_REQUEST)
+* getKernel - Returns the Kernel handling the request
+* getRequest - Returns the current Request being handled
+* isMainRequest - Returns true if getRequestType === HttpKernelInterface::MAIN_REQUEST
+
+##### [kernel.request](https://symfony.com/doc/6.0/components/http_kernel.html#1-the-kernel-request-event)
+> Typically used to add more information to the Request, initialize parts of the system, or return a Response if possible (e.g. a security layer that denies access).
+
+##### [kernel.controller](https://symfony.com/doc/current/components/http_kernel.html#3-the-kernel-controller-event)
+> Typically used to initialise things needed by the controller (such as param converters) or even to change the controller entirely just before the controller is executed.
+
+
+* kernel.controller_arguments
+* kernel.view
+* kernel.response
+* kernel.finish_request
+* kernel.terminate
+* kernel.exception
+
+#### [Connecting listeners to the dispatcher](https://symfony.com/doc/6.0/components/event_dispatcher.html#connecting-listeners)
+
+```php
+<?php
+
+use Symfony\Component\EventDispatcher\EventDispatcher;
+
+$dispatcher = new EventDispatcher();
+$listener = new MyListener();
+$dispatcher->addListener('some.event', [$listener, 'someMethod'], 0);
+```
+
+The three arguments of the `addListener` method are:
+
+* the event name to listen for
+* a PHP callable that will be executed when the event is dispatched
+* the priority of this listener in relation to other callables connected to the event... listeners are called in priority order descending, listeners sharing the same priority are called in order in which they were connected to the dispatcher
+
 ### [Official best practices](https://symfony.com/doc/5.0/best_practices.html)
 Introduced by Fabien during his Symfony Live 2014 keynote in New York (whilst there were other Symfony Live conference talks online, I couldn't find any from New York).
 * For caching, using the Cache Contracts approach is recommended: it requires less code boilerplate and provides cache stampede protection by default.
@@ -1138,7 +1235,7 @@ Two whitespace control modifier characters enable the removal of whitespace befo
 `{{- -}}` // Removes whitespace before and after the variable (including newlines)
 `{{~ ~}}` // Removes whitespace before and after the variable (exluding newlines)
 
-In addition, the `spaceless` filter can be used, variables are piped through it using the `|` symbol or alternatively, the filter can be applied to a section of the template using the [`apply`](https://twig.symfony.com/doc/3.x/tags/apply.html) tag.
+In addition, the `spaceless` filter can be used: variables are piped through it using the `|` symbol or alternatively, the filter can be applied to a section of the template using the [`apply`](https://twig.symfony.com/doc/3.x/tags/apply.html) tag.
 
 ### [Filters](https://twig.symfony.com/doc/3.x/filters/index.html)
 #### [Slice](https://twig.symfony.com/doc/3.x/filters/slice.html)
@@ -1597,7 +1694,7 @@ class MyController
 
 You can list the available services that can be autowired with the following command:
 
-```
+```bash
 php bin/console debug:autowiring
 ```
 
@@ -1856,3 +1953,5 @@ The `vendor/symfony/http-kernel/Kernel.php::locateResource()` method is able to 
 
 ### [Performance](https://symfony.com/index.php/doc/5.0/performance.html)
 It's recommended that the `realpath_cache_size` PHP setting in `php.ini` should be set to at least `4096K`.
+
+[1]: https://stackoverflow.com/questions/11888522/what-are-symfony-bridges-bundles-and-vendor
