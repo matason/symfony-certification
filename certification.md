@@ -1020,7 +1020,7 @@ array (
 )
 ```
 
-This is then used by the Controller Resolver (unless a custom Controller Resolver has been injected into the `HttpKernel`).
+This is then used by the `Controller Resolver` (unless a custom `Controller Resolver` has been injected into the `HttpKernel`).
 
 ##### The Controller Resolver
 After dispatching the `kernel.request` event but before dispatching the `kernel.controller` event, a Controller Resolver is used to resolve the Controller. The Controller Resolver is constructor injected into the `HttpKernel`, this means an application can inject a custom Controller Resolver if required.
@@ -1037,6 +1037,55 @@ After dispatching the `kernel.controller` event but before dispatching the `kern
 The Argument Resolver must implement the `\Symfony\Component\HttpKernel\Controller\ArgumentResolverInterface` interface. This interface defines a single method, `getArguments` which takes an instance of `\Symfony\Component\HttpFoundation\Request` as its first argument and a `callable`, the `Controller` as its second argument. The method must return an array.
 
 The Symfony Framework Bundle, by default, injects the `\Symfony\Component\HttpKernel\Controller\ArgumentResolver` class.
+
+Given the Controller callable and the Request, the Argument Resolver uses [ReflectionMethod](https://www.php.net/manual/en/class.reflectionmethod.php) or [ReflectionFunction](https://www.php.net/manual/en/class.reflectionfunction.php) to determine the arguments of the Controller.
+
+For each Controller argument, the Argument Resolver attempts to resolve the value of each argument: it uses a stack of Argument Value Resolvers to do so... Argument Value Resolver classes must implement the `\Symfony\Component\HttpKernel\Controller\ArgumentValueResolverInterface` interface which defines two methods: `supports` which returns a boolean and `resolve` which returns an iterable (an [iterable](https://www.php.net/manual/en/language.types.iterable.php) is a psuedo-type in PHP that accepts an array or object implementing the [Traversable](https://www.php.net/manual/en/class.traversable.php) interface).
+
+There are five default Argument Value Resolvers on the `\Symfony\Component\HttpKernel\Controller\ArgumentResolver` class, these are used unless an array of Argument Value Resolvers are constructor injected into the Argument Resolver. The Symfony Framework Bundle includes the `\Symfony\Component\HttpKernel\DependencyInjection\ControllerArgumentValueResolverPass` Compiler Pass which locates all services tagged with `controller.argument_value_resolver` and sets these as the second argument of the `argument_resolver` service:
+
+```bash
+vagrant@symfony6:/vagrant$ php bin/console --env=prod debug:container --tag=controller.argument_value_resolver
+
+Symfony Container Services Tagged with "controller.argument_value_resolver" Tag
+===============================================================================
+
+ ------------------------------------- ---------- ----------------------------------------------------------------------------------------
+  Service ID                            priority   Class name
+ ------------------------------------- ---------- ----------------------------------------------------------------------------------------
+  argument_resolver.request_attribute   100        Symfony\Component\HttpKernel\Controller\ArgumentResolver\RequestAttributeValueResolver
+  argument_resolver.request             50         Symfony\Component\HttpKernel\Controller\ArgumentResolver\RequestValueResolver
+  argument_resolver.session             50         Symfony\Component\HttpKernel\Controller\ArgumentResolver\SessionValueResolver
+  security.user_value_resolver          40         Symfony\Component\Security\Http\Controller\UserValueResolver
+  argument_resolver.service             -50        Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver
+  argument_resolver.default             -100       Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver
+  argument_resolver.variadic            -150       Symfony\Component\HttpKernel\Controller\ArgumentResolver\VariadicValueResolver
+ ------------------------------------- ---------- ----------------------------------------------------------------------------------------
+vagrant@symfony6:/vagrant$
+```
+
+###### The Argument Value Resolvers
+* `\Symfony\Component\HttpKernel\Controller\ArgumentResolver\RequestAttributeValueResolver` - if the argument name matches a key in the Request attributes, then the value of that particular Request attribute is used
+* `\Symfony\Component\HttpKernel\Controller\ArgumentResolver\RequestValueResolver` - if the argument is type-hinted with `\Symfony\Component\HttpFoundation\Request`, then the Request is passed as the value
+* `\Symfony\Component\HttpKernel\Controller\ArgumentResolver\SessionValueResolver` - if the argument is type-hinted with `\Symfony\Component\HttpFoundation\Session\SessionInterface`, then the Session is passed as the value
+* `Symfony\Component\Security\Http\Controller\UserValueResolver` - if the argument is type-hinted with `\Symfony\Component\Security\Core\User\UserInterface` (or any implementation of it), the current logged in User is passed as the value
+
+
+
+
+* `Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver` -
+
+
+
+
+
+* `\Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver` - if the argument has a default value, the default value is passed as the value... _or_ if the argument is type-hinted, is nullable and is _not_ variadic, then `null` is passed as the value
+* `\Symfony\Component\HttpKernel\Controller\ArgumentResolver\VariadicValueResolver` - if the argument is variadic (takes any number of values which are combined into an array) _and_ the name of the argument matches a key in the Request attributes, the value of that particular Request attribute is used
+
+
+
+
+
 
 
 
@@ -1728,7 +1777,7 @@ You can list the available services that can be autowired with the following com
 php bin/console debug:autowiring
 ```
 
-## [Security](https://symfony.com/doc/5.0/security.html)
+## [Security](https://symfony.com/doc/6.0/security.html)
 Run php bin/console symfony check:security regularly.
 ### Authentication
 ### Authorization
