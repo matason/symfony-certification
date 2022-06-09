@@ -921,7 +921,7 @@ swiftmailer:
 #### The PropertyInfo Component
 #### [The PSR-7 Bridge](https://symfony.com/doc/6.0/components/psr7.html)
 #### [The Runtime Component](https://symfony.com/doc/6.0/components/runtime.html)
->The Runtime Component decouples the bootstrapping logic from any global state to make sure the application can run with runtimes like PHP-PM, ReactPHP, Swoole, etc. without any changes.
+> The Runtime Component decouples the bootstrapping logic from any global state to make sure the application can run with runtimes like PHP-PM, ReactPHP, Swoole, etc. without any changes.
 
 Composer based projects need to `require __DIR__./vendor/autoload.php` so that classes in dependencies can be used in the project.
 
@@ -1027,12 +1027,12 @@ After dispatching the `kernel.request` event but before dispatching the `kernel.
 
 The Controller Resolver must implement the `\Symfony\Component\HttpKernel\Controller\ControllerResolverInterface` interface. This interface defines a single method, `getController` which takes an instance of `\Symfony\Component\HttpFoundation\Request` as its only argument. The method must return a `callable` or `false` if it cannot resolve to a Controller.
 
-The Symfony Framework Bundle, by default, injects the `\Symfony\Bundle\FrameworkBundle\Controller\ControllerResolver` class which extends the `\Symfony\Component\HttpKernel\Controller\ContainerControllerResolver` class which in turn extends the `\Symfony\Component\HttpKernel\Controller\ControllerResolver` class. This class relies on `_controller` having been set in the `Request` attributes, and if it has, it does its best to resolve to a `Controller`.
+The Symfony Framework Bundle, by default, injects the `\Symfony\Bundle\FrameworkBundle\Controller\ControllerResolver` class which extends the `\Symfony\Component\HttpKernel\Controller\ContainerControllerResolver` class which in turn extends the `\Symfony\Component\HttpKernel\Controller\ControllerResolver` class. This class expects `_controller` to have been set in the `Request` attributes, and if it has, it does its best to resolve to a `Controller`.
 
 ##### [kernel.controller](https://symfony.com/doc/6.0/components/http_kernel.html#3-the-kernel-controller-event)
 > This event is dispatched after the controller to be executed has been resolved but before executing it. This event is typically used to initialise things needed by the controller (such as param converters) or even to _change_ the controller entirely.
 
-After dispatching the `kernel.controller` event but before dispatching the `kernel.controller_arguments` event, an Argument Resolver is used to resolve the arguments that are required `Controller` returned by the Controller Resolver. The Argument Resolver is constructor injected into the `HttpKernel` and can be overridden in the same way as the Controller Resolver.
+After dispatching the `kernel.controller` event but before dispatching the `kernel.controller_arguments` event, an Argument Resolver is used to resolve the arguments that are required by the `Controller` returned by the Controller Resolver. The Argument Resolver is constructor injected into the `HttpKernel` and can be overridden in the same way as the Controller Resolver.
 
 The Argument Resolver must implement the `\Symfony\Component\HttpKernel\Controller\ArgumentResolverInterface` interface. This interface defines a single method, `getArguments` which takes an instance of `\Symfony\Component\HttpFoundation\Request` as its first argument and a `callable`, the `Controller` as its second argument. The method must return an array.
 
@@ -1069,34 +1069,47 @@ vagrant@symfony6:/vagrant$
 * `\Symfony\Component\HttpKernel\Controller\ArgumentResolver\RequestValueResolver` - if the argument is type-hinted with `\Symfony\Component\HttpFoundation\Request`, then the Request is passed as the value
 * `\Symfony\Component\HttpKernel\Controller\ArgumentResolver\SessionValueResolver` - if the argument is type-hinted with `\Symfony\Component\HttpFoundation\Session\SessionInterface`, then the Session is passed as the value
 * `Symfony\Component\Security\Http\Controller\UserValueResolver` - if the argument is type-hinted with `\Symfony\Component\Security\Core\User\UserInterface` (or any implementation of it), the current logged in User is passed as the value
+* `Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver` - the `ServiceValueResolver` will attempt to retrieve an argument by its name from the service definition... so if your controller action looks something like this:
 
+```php
+<?php
 
+namespace App\Controller;
 
+class DefaultController
+{
+    /**
+     * @Route("/")
+     */
+    public function default($someArgument)
+    {
+        // Some code here...
+    }
+}
+```
 
-* `Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver` -
+and your service definition looks something like this:
 
+```yaml
+# config/services.yaml
+services:
+    App\Controller\DefaultController:
+        tags: ['controller.service_arguments']
+        bind:
+            $someArgument: 'Some value!'
+```
 
-
-
-
+then 'Some value!' will be injected as `$someArgument` to the `default` method of the `DefaultController` class
 * `\Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver` - if the argument has a default value, the default value is passed as the value... _or_ if the argument is type-hinted, is nullable and is _not_ variadic, then `null` is passed as the value
 * `\Symfony\Component\HttpKernel\Controller\ArgumentResolver\VariadicValueResolver` - if the argument is variadic (takes any number of values which are combined into an array) _and_ the name of the argument matches a key in the Request attributes, the value of that particular Request attribute is used
 
+##### [kernel.controller_arguments](https://symfony.com/doc/6.0/reference/events.html#kernel-controller-arguments)
+The `kernel.controller_arguments` event is dispatched next, giving listeners to the `onKernelControllerArguments` and event subscribers the opportunity to modifying both the `Controller` _and_ the arguments.
 
+At this point, the `Controller` is called!
 
+##### [kernel.view](https://symfony.com/doc/6.0/reference/events.html#kernel-view)
 
-
-
-
-
-
-##### [kernel.controller_arguments](https://symfony.com/doc/6.0/components/http_kernel.html#4-getting-the-controller-arguments)
-
-
-
-
-
-* kernel.view
 * kernel.response
 * kernel.finish_request
 * kernel.terminate
