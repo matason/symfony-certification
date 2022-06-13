@@ -27,8 +27,8 @@ Where [webapp](https://github.com/symfony/recipes/tree/master/symfony/webapp-pac
 
 The Symfony CLI binary can be used to:
 * Create new Symfony applications
-* Run a local web server with TLS support for development purposes
-* Check for security vulnerabilities in a project
+* Run a local web server with TLS support for development purposes with `symfony server:start`
+* Check for security vulnerabilities in a project with `symfony check:security`
 * Seamless integrate with platform.sh (Symfony Cloud, Symfony PaaS)
 
 ### Using composer create-project
