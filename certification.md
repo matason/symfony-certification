@@ -116,7 +116,7 @@ It can be...
 #### [Readonly class properties](https://www.php.net/manual/en/language.oop5.properties.php#language.oop5.properties.readonly-properties)
 
 ## HTTP
-[Symfony and HTTP Fundamentals](https://symfony.com/doc/5.0/introduction/http_fundamentals.html)
+[Symfony and HTTP Fundamentals](https://symfony.com/doc/6.0/introduction/http_fundamentals.html)
 
 **Other resources**
 * [HTTP1.1 Specification](https://www.w3.org/Protocols/rfc2616/rfc2616.html)
@@ -133,6 +133,7 @@ The [Accept](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept) r
 The body of the response can be returned in different formats (HTML, JSON, XML) so the [Content-Type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Type) entity header (which can be used in both HTTP requests and HTTP responses) is used to convey which format ([Internet Media Type](https://developer.mozilla.org/en-US/docs/Glossary/MIME_type)) is being returned.
 ### [HTTP methods](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods)
 There are nine HTTP methods defined by the HTTP specification:
+
 * GET
 * POST
 * PUT
@@ -142,6 +143,7 @@ There are nine HTTP methods defined by the HTTP specification:
 * CONNECT
 * OPTIONS
 * TRACE
+
 ### [Cookies](https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies)
 ### [Caching](https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching#varying_responses)
 > The HTTP [Vary](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Vary) response header determines how to match future request headers to decide whether a cached response can be used rather than requesting a fresh one from the origin server. It is used by the server to indicate which headers it used when selecting a representation of a resource in a content negotiation algorithm.
@@ -206,7 +208,9 @@ Symfony flex uses the following keys in the composer.json file:
 
 and a symfony.lock, which lives in the project root directory keeps track of the Symfony Flex recipes that have been installed.
 
-Flex recipes can be inspected at https://flex.symfony.com/
+~~Flex recipes can be inspected at https://flex.symfony.com/~~
+
+The [flex.symfony.com site was decommissioned in October, 2021](https://symfony.com/blog/symfony-flex-is-going-serverless). GitHub Actions are now used to generate static Symfony Flex recipes which are hosted at https://github.com/symfony/recipes/
 
 [Upgrading existing project to use Symfony Flex](https://symfony.com/doc/5.0/setup/flex.html)
 
