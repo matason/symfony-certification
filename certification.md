@@ -1109,6 +1109,16 @@ The `kernel.controller_arguments` event is dispatched next, giving listeners to 
 At this point, the `Controller` is called!
 
 ##### [kernel.view](https://symfony.com/doc/6.0/reference/events.html#kernel-view)
+> This event is dispatched after the controller has been executed but only if the controller does not return a Response object.
+
+The Sensio Framework Extra Bundle provides a listener, `\Sensio\Bundle\FrameworkExtraBundle\EventListener\TemplateListener`, class with an `onKernelView` method that does its best to generate a `Response` object if the return value of the controller is not a `Response` object. If...
+
+* a `_template` key is present in the `Request` attributes and it's value is an instance of `\Sensio\Bundle\FrameworkExtraBundle\Configuration\Template`
+* and if the `Twig` service has been injected into the TemplateListener constructor (or can be loaded from the Container)
+
+then there's every chance that a `Response` will be returned otherwise a `\Symfony\Component\HttpKernel\Exception\ControllerDoesNotReturnResponseException` exception or `\LogicException` may be thrown.
+
+The `\Sensio\Bundle\FrameworkExtraBundle\EventListener\ControllerListener`, which listens for the `kernel.controller` event, will resolve a `[@Template](https://symfony.com/bundles/SensioFrameworkExtraBundle/current/annotations/view.html)` annotation if it's present on the `Controller` action method and set `_template` on the `Request` attributes.
 
 * kernel.response
 * kernel.finish_request
