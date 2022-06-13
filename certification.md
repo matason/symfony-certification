@@ -1002,6 +1002,17 @@ $request = Request::createFromGlobals();
 #### Kernel events
 > Each event dispatched by the HttpKernel component is a subclass of [KernelEvent](https://github.com/symfony/symfony/blob/6.0/src/Symfony/Component/HttpKernel/Event/KernelEvent.php).
 
+##### List of built-in Symfony kernel events
+
+* [kernel.request](https://symfony.com/doc/6.0/reference/events.html#kernel-request)
+* [kernel.controller](https://symfony.com/doc/6.0/reference/events.html#kernel-controller)
+* [kernel.controller_arguments](https://symfony.com/doc/6.0/reference/events.html#kernel-controller-arguments)
+* [kernel.view](https://symfony.com/doc/6.0/reference/events.html#kernel-view)
+* [kernel.response](https://symfony.com/doc/6.0/reference/events.html#kernel-response)
+* [kernel.finish_request](https://symfony.com/doc/6.0/reference/events.html#kernel-finish-request)
+* [kernel.terminate](https://symfony.com/doc/6.0/reference/events.html#kernel-terminate)
+* [kernel.exception](https://symfony.com/doc/6.0/reference/events.html#kernel-exception)
+
 There are four methods available on a KernelEvent...
 
 * `getRequestType` - Returns the type of the request (`HttpKernelInterface::MAIN_REQUEST` or `HttpKernelInterface::SUB_REQUEST`)
@@ -1009,8 +1020,8 @@ There are four methods available on a KernelEvent...
 * `getRequest` - Returns the current Request being handled
 * `isMainRequest` - Returns true if the `getRequestType` returns `HttpKernelInterface::MAIN_REQUEST`
 
-##### [kernel.request](https://symfony.com/doc/6.0/components/http_kernel.html#1-the-kernel-request-event)
-> Typically used to add more information to the `Request`, initialize parts of the system, or return a `Response` if possible (e.g. a security layer that denies access).
+##### [kernel.request](https://symfony.com/doc/6.0/reference/events.html#kernel-request)
+> This event is dispatched very early in Symfony, before the controller is determined. It's useful to add information to the Request or return a Response early to stop the handling of the request.
 
 One particular listener, the `RouterListener` listens to the `kernel.request` event and adds, if it can, the controller that was matched to the `Request` to the `Request` attributes under the `_controller` key:
 
@@ -1029,7 +1040,7 @@ The Controller Resolver must implement the `\Symfony\Component\HttpKernel\Contro
 
 The Symfony Framework Bundle, by default, injects the `\Symfony\Bundle\FrameworkBundle\Controller\ControllerResolver` class which extends the `\Symfony\Component\HttpKernel\Controller\ContainerControllerResolver` class which in turn extends the `\Symfony\Component\HttpKernel\Controller\ControllerResolver` class. This class expects `_controller` to have been set in the `Request` attributes, and if it has, it does its best to resolve to a `Controller`.
 
-##### [kernel.controller](https://symfony.com/doc/6.0/components/http_kernel.html#3-the-kernel-controller-event)
+##### [kernel.controller](https://symfony.com/doc/6.0/reference/events.html#kernel-controller)
 > This event is dispatched after the controller to be executed has been resolved but before executing it. This event is typically used to initialise things needed by the controller (such as param converters) or even to _change_ the controller entirely.
 
 After dispatching the `kernel.controller` event but before dispatching the `kernel.controller_arguments` event, an Argument Resolver is used to resolve the arguments that are required by the `Controller` returned by the Controller Resolver. The Argument Resolver is constructor injected into the `HttpKernel` and can be overridden in the same way as the Controller Resolver.
@@ -1120,10 +1131,19 @@ then there's every chance that a `Response` will be returned otherwise a `\Symfo
 
 The `\Sensio\Bundle\FrameworkExtraBundle\EventListener\ControllerListener`, which listens for the `kernel.controller` event, will resolve a `[@Template](https://symfony.com/bundles/SensioFrameworkExtraBundle/current/annotations/view.html)` annotation if it's present on the `Controller` action method and set `_template` on the `Request` attributes.
 
-* kernel.response
-* kernel.finish_request
-* kernel.terminate
-* kernel.exception
+##### [kernel.response](https://symfony.com/doc/6.0/reference/events.html#kernel-response)
+> This event is dispatched after the controller or any kernel.view listener returns a Response object. It's useful to modify or replace the response before sending it back (e.g. add/modify HTTP headers, add cookies, etc.)
+
+##### [kernel.finish_request](https://symfony.com/doc/6.0/reference/events.html#kernel-finish-request)
+> This event is dispatched after the kernel.response event. It's useful to reset the global state of the application (for example, the translator listener resets the translator's locale to the one of the parent request).
+
+##### [kernel.terminate](https://symfony.com/doc/6.0/reference/events.html#kernel-terminate)
+> This event is dispatched after the response has been sent (after the execution of the handle() method). It's useful to perform slow or complex tasks that don't need to be completed to send the response (e.g. sending emails).
+
+The runner, for HTTP requests, the default runner will be an instance of `\Symfony\Component\Runtime\Runner\Symfony\HttpKernelRunner`, calls the `handle` method on the `Kernel` to get and send the `Response` and then, if the `Kernel` implements `\Symfony\Component\HttpKernel\TerminableInterface` (which has a `terminate`) method, then the runner calls the `terminate` method on the `Kernel`. It's this method that dispatches the `kernel.terminate` event.
+
+##### [kernel.exception](https://symfony.com/doc/6.0/reference/events.html#kernel-exception)
+> This event is dispatched as soon as an error occurs during the handling of the HTTP request. It's useful to recover from errors or modify the exception details sent as response.
 
 #### [Connecting listeners to the dispatcher](https://symfony.com/doc/6.0/components/event_dispatcher.html#connecting-listeners)
 
